@@ -41,7 +41,6 @@ target_wrapper.*
 
 # QtCreator CMake
 CMakeLists.txt.user*
-<<<<<<< HEAD
 
 # Macbook stuff
 .DS_Store
