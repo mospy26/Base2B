@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sprites/0.png</file>
+        <file>sprites/1.png</file>
+        <file>sprites/2.png</file>
+        <file>sprites/3.png</file>
+        <file>sprites/4.png</file>
+        <file>sprites/5.png</file>
+        <file>sprites/6.png</file>
+        <file>sprites/7.png</file>
+        <file>sprites/8.png</file>
+        <file>sprites/9.png</file>
+        <file>sprites/bird0.png</file>
+        <file>sprites/bird1.png</file>
+        <file>sprites/cactus0.png</file>
+        <file>sprites/cactus1.png</file>
+        <file>sprites/cactus2.png</file>
+        <file>sprites/cloud0.png</file>
+        <file>sprites/ground.png</file>
+        <file>sprites/ground1.png</file>
+        <file>sprites/moon0.png</file>
+        <file>sprites/moon1.png</file>
+        <file>sprites/moon2.png</file>
+        <file>sprites/moon3.png</file>
+        <file>sprites/moon4.png</file>
+        <file>sprites/moon5.png</file>
+        <file>sprites/moon6.png</file>
+        <file>sprites/numbers.png</file>
+        <file>sprites/sprite0.png</file>
+        <file>sprites/sprite1.png</file>
+    </qresource>
+</RCC>
