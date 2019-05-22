@@ -7,40 +7,29 @@ WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, i
 }
 
 void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
-    //walk();
+
+    JumpingStickman::update(obstacles);
     Coordinate& coordinate = getCoordinate();
     int newY = coordinate.getYCoordinate() + jumpVelocity;
     coordinate.setXCoordinate(coordinate.getXCoordinate() + velocity);
-    colliding = false;
 
-    // Check for collisions
-    for (auto &other : obstacles) {
-        Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
+//    if(blinker == 0) {
+//        blinking = false;
+//    }
 
-        if(col.overlapped || col.left || col.right || col.up || col.down) {
-            // restart
-            // stickman crashed
-            // blink : extension
-            colliding = true;
-            blinking = true;
-            blinker = 3;
-        }
-    }
+//    for (auto &other : obstacles) {
+//        Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
 
-    if(blinker == 0) {
-        blinking = false;
-    }
-
-    // Check if we're below the floor
-    if (newY <= floor) {
-        newY = floor;
-        grounded = true;
-        jumpVelocity = 0;
-        jumpCount = 0;
-    }
-
-    coordinate.setYCoordinate(newY);
-    jumpVelocity += gravity;
+//        if (col.overlapped) {
+//            putBack();
+//            // restart
+//            // stickman crashed
+//            // blink : extension
+//            colliding = true;
+//            blinking = true;
+//            blinker = 3;
+//        }
+//    }
 }
 
 void WalkingStickman::handleInput(QKeyEvent& event) {
@@ -60,11 +49,12 @@ void WalkingStickman::handleInput(QKeyEvent& event) {
 }
 
 void WalkingStickman::putBack() {
-    setCoordinate(initialCoordinates);
+    //setCoordinate(initialCoordinates);
+    //qDebug() << initialCoordinates.getXCoordinate();
 }
 
 void WalkingStickman::blink(int time) {
-    if(time%20 > 10) {
+    if(time%30 > 10) {
         blinker -= 1;
         sprite.fill(Qt::transparent);
     }

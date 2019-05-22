@@ -14,7 +14,6 @@ void Stage3Dialog::update() {
 
     moveBackground();
     stickman->update(obstacles);
-
     if (!stickman->isColliding()) {
         // Reduce distance to next obstacle
         distanceToSpawn -= background.getVelocity();
@@ -22,22 +21,29 @@ void Stage3Dialog::update() {
         //speedUp(counter);
         score.increment();
     }
+    spawnObstacles(counter);
 
-    Stage2Dialog::spawnObstacles(counter);
+    for (auto &c : clouds) {
+        c->collisionLogic(*stickman);
+    }
+
+    for (auto &o : obstacles) {
+        o->collisionLogic(*stickman);
+    }
 
     Stickman& stickmanPtr = *stickman;
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickmanPtr);
 
-    if(stickman->isColliding()) {
-        walkingStickman->putBack();
-    }
+//    if(stickman->isColliding()) {
+//        walkingStickman->putBack();
+//    }
 
-    if(walkingStickman->getBlinking()) {
-        walkingStickman->blink(counter);
-    }
-    else {
-        walkingStickman->setBlinker(0);
-    }
+//    if(walkingStickman->getBlinking()) {
+//        walkingStickman->blink(counter);
+//    }
+//    else {
+//        walkingStickman->setBlinker(0);
+//    }
 }
 
 void Stage3Dialog::moveBackground() {
@@ -47,14 +53,23 @@ void Stage3Dialog::moveBackground() {
     if(stickmanFront >= 400 && stickmanFront <= 409 && walkingStickman->isMovingRight()) {
         background.setVelocity(8);
         walkingStickman->setVelocity(0);
+        for(auto& obs : obstacles) {
+            obs->setVelocity(8);
+        }
     }
     else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
         walkingStickman->getCoordinate().setXCoordinate(0);
         walkingStickman->setVelocity(0);
+        for(auto& obs : obstacles) {
+            obs->setVelocity(0);
+        }
 
         //do stickman : can go backwards instead of stopping it - extension
     }
     else if(walkingStickman->getVelocity() == 0) {
         background.setVelocity(0);
+        for(auto& obs : obstacles) {
+            obs->setVelocity(0);
+        }
     }
 }
