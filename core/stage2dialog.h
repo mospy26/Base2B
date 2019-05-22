@@ -20,9 +20,10 @@ public:
 protected:
     virtual void spawnObstacles(unsigned int counter);
 
+    int distanceToSpawn;
+
 private:
     std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout;
-    int distanceToSpawn;
     int nextObstacle;
 };
 

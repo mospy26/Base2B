@@ -10,7 +10,6 @@ Stage2Dialog::Stage2Dialog(Game &game, std::unique_ptr<Stickman> stickman, std::
 void Stage2Dialog::spawnObstacles(unsigned int /*counter*/) {
     // Check if it's time to spawn an obstacle
     if (obstacleLayout.size() == 0 || distanceToSpawn > 0) return;
-
     auto &e = obstacleLayout[nextObstacle];
 
     // Check for collisions between next obstacle and current obstacles

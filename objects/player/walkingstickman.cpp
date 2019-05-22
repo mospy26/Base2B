@@ -7,9 +7,10 @@ WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, i
 }
 
 void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
-    walk();
+    //walk();
     Coordinate& coordinate = getCoordinate();
     int newY = coordinate.getYCoordinate() + jumpVelocity;
+    coordinate.setXCoordinate(coordinate.getXCoordinate() + velocity);
     colliding = false;
 
     // Check for collisions
@@ -48,9 +49,11 @@ void WalkingStickman::handleInput(QKeyEvent& event) {
     JumpingStickman::handleInput(event);
 
     if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
+        velocity = -8;
         movingLeft = true;
     }
     if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
+        velocity = 8;
         movingRight = true;
     }
 
@@ -79,21 +82,29 @@ void WalkingStickman::setBlinker(int blinkerValue) {
     blinker = blinkerValue;
 }
 
-void WalkingStickman::walk() {
-    Coordinate& stickmanPosition = getCoordinate();
-    if(movingRight) {
-        stickmanPosition.setXCoordinate(stickmanPosition.getXCoordinate() + 5);
-    }
-    else if(movingLeft) {
-        stickmanPosition.setXCoordinate(stickmanPosition.getXCoordinate() - 5);
-    }
-}
-
 void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
     if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
         movingRight = false;
+        velocity = 0;
     }
     if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
         movingLeft = false;
+        velocity = 0;
     }
+}
+
+int WalkingStickman::getVelocity() const {
+    return velocity;
+}
+
+void WalkingStickman::setVelocity(int v) {
+    velocity = v;
+}
+
+bool WalkingStickman::isMovingRight() const {
+    return movingRight;
+}
+
+bool WalkingStickman::isMovingLeft() const {
+    return movingLeft;
 }

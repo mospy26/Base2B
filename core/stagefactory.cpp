@@ -46,12 +46,12 @@ std::unique_ptr<GameStage> StageFactory::createStage() {
         player->setSprite(":sprites/sprite0.png");
 
         auto factory = std::make_unique<EntityFactory>();
-        factory->setVelocity(10);
+        factory->setVelocity(0);
 
         auto stage = std::make_unique<Stage3Dialog>(*config.game, std::move(player), std::move(factory), std::move(*config.obstacles), 3);
         genericDialogInitializer(*stage);
-        //return std::make_unique<SwapRendererStage>(std::move(stage));
-        return std::move(stage);
+        return std::make_unique<SwapRendererStage>(std::move(stage));
+        //return std::move(stage);
     } else {
         // Stage 1
         auto player = std::make_unique<Stickman>();
@@ -73,7 +73,12 @@ void StageFactory::genericDialogInitializer(Dialog &dialog) {
     Background bg;
     bg.setCoordinate(Coordinate(0, 150, 450));
     bg.setSprite(config.background);
-    bg.setVelocity(config.velocity);
+    if(config.stage != 3) {
+        bg.setVelocity(config.velocity);
+    }
+    else {
+        bg.setVelocity(0);
+    }
 
     dialog.setBackground(bg);
     dialog.setMoon(Moon(Coordinate(400, -140, 450), 181.0, 550));

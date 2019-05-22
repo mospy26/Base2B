@@ -53,6 +53,7 @@ void Dialog::update() {
 void Dialog::render(Renderer &renderer) {
     renderBackground(renderer, counter);
     renderObstacles(renderer, counter);
+    renderClouds(renderer, counter);
     stickman->render(renderer, counter);
     score.render(renderer);
     counter++;

@@ -1,4 +1,5 @@
 #include "background.h"
+#include <QDebug>
 
 void Background::setCoordinate(Coordinate coordinate) {
     this->coordinate = coordinate;

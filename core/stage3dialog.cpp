@@ -8,13 +8,22 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
-//    renderBackground(renderer, counter);
-//    renderObstacles(renderer, counter);
-//    stickman->render(renderer, counter);
 }
 
 void Stage3Dialog::update() {
+
+    moveBackground();
     stickman->update(obstacles);
+
+    if (!stickman->isColliding()) {
+        // Reduce distance to next obstacle
+        distanceToSpawn -= background.getVelocity();
+        background.update();
+        //speedUp(counter);
+        score.increment();
+    }
+
+    Stage2Dialog::spawnObstacles(counter);
 
     Stickman& stickmanPtr = *stickman;
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickmanPtr);
@@ -28,5 +37,24 @@ void Stage3Dialog::update() {
     }
     else {
         walkingStickman->setBlinker(0);
+    }
+}
+
+void Stage3Dialog::moveBackground() {
+    int stickmanFront = stickman->getCoordinate().getXCoordinate() + stickman->width();
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+
+    if(stickmanFront >= 400 && stickmanFront <= 409 && walkingStickman->isMovingRight()) {
+        background.setVelocity(8);
+        walkingStickman->setVelocity(0);
+    }
+    else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
+        walkingStickman->getCoordinate().setXCoordinate(0);
+        walkingStickman->setVelocity(0);
+
+        //do stickman : can go backwards instead of stopping it - extension
+    }
+    else if(walkingStickman->getVelocity() == 0) {
+        background.setVelocity(0);
     }
 }
