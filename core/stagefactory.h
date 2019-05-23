@@ -19,7 +19,7 @@ public:
         Coordinate coord;
         int velocity;
         std::string size;
-
+        int lives;
         Game *game;
         std::vector<std::pair<std::unique_ptr<Entity>, int>> *obstacles;
     };

@@ -154,6 +154,18 @@ int main(int argc, char *argv[]) {
             }
         } else if (setting == "testMode:") {
             stageConfig.testMode = value.compare("on") == 0;
+        } else if (setting == "lives:") {
+            bool ok = isNumber(value);
+            if(!ok) {
+                cout << "Invalid lives value. Terminating.";
+                return 0;
+            }
+            int lives = value.toInt();
+            if(lives <= 0) {
+                cout << "Cannot start with 0 or negative lives. Terminating.";
+                return 0;
+            }
+            stageConfig.lives = lives;
         }
         line = stream.readLine();
     };

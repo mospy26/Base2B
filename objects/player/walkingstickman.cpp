@@ -105,3 +105,7 @@ bool WalkingStickman::isMovingLeft() const {
 void WalkingStickman::setInitialCoordinates(Coordinate& coordinate) {
     initialCoordinates = coordinate;
 }
+
+void WalkingStickman::setLives(int lives) {
+    this->lives = lives;
+}

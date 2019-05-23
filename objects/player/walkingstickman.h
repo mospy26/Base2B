@@ -14,6 +14,7 @@ public:
     void putBack();
     void blink(int time);
     void setInitialCoordinates(Coordinate& coordinate);
+    void setLives(int lives);
     bool getBlinking() const;
     void setBlinker(int blinker);
     int getBlinker() const;
@@ -27,6 +28,7 @@ private:
     bool movingRight;
     bool movingLeft;
     Coordinate initialCoordinates;
+    int lives;
     int velocity = 0;
     bool blinking = false;
     int blinker = 0;
