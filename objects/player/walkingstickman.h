@@ -15,6 +15,9 @@ public:
     void blink(int time);
     void setInitialCoordinates(Coordinate& coordinate);
     void setLives(int lives);
+    int getLives() const;
+    void died();
+
     bool getBlinking() const;
     void setBlinker(int blinker);
     int getBlinker() const;

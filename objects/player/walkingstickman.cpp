@@ -22,12 +22,9 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 
         if (col.overlapped) {
             putBack();
-            // restart
-            // stickman crashed
-            // blink : extension
             colliding = true;
-            if(!blinking) blinker = 3;
-            blinking = true;
+//            if(!blinking) blinker = 3;
+//            blinking = true;
         }
     }
 }
@@ -108,4 +105,11 @@ void WalkingStickman::setInitialCoordinates(Coordinate& coordinate) {
 
 void WalkingStickman::setLives(int lives) {
     this->lives = lives;
+}
+
+int WalkingStickman::getLives() const {
+    return lives;
+}
+
+void WalkingStickman::died() {
 }

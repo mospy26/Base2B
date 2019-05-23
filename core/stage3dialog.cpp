@@ -36,11 +36,17 @@ void Stage3Dialog::update() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
     if(stickman->isColliding()) {
-        walkingStickman->putBack();
-        restartLevel();
-        if(walkingStickman->getBlinker() > 0) {
-            walkingStickman->blink(counter);
+        if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
+        if(walkingStickman->getLives() == 0) {
+            walkingStickman->died();
         }
+        else {
+            walkingStickman->putBack();
+            restartLevel();
+        }
+//        if(walkingStickman->getBlinker() > 0) {
+//            walkingStickman->blink(counter);
+//        }
     }
 }
 
