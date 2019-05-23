@@ -8,10 +8,11 @@ WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, i
 
 void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 
-    JumpingStickman::update(obstacles);
-    Coordinate& coordinate = getCoordinate();
-    int newY = coordinate.getYCoordinate() + jumpVelocity;
-    coordinate.setXCoordinate(coordinate.getXCoordinate() + velocity);
+    Coordinate &ac = getCoordinate();
+    int newY = ac.getYCoordinate() + jumpVelocity;
+    colliding = false;
+
+    ac.setXCoordinate(ac.getXCoordinate() + velocity);
 
     if(blinker <= 0) {
         blinking = false;
@@ -20,27 +21,37 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
     for (auto &other : obstacles) {
         Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
 
-        if (col.overlapped) {
-            putBack();
+        if (col.overlapped && lives > 0) {
             colliding = true;
-//            if(!blinking) blinker = 3;
-//            blinking = true;
         }
     }
+
+    // Check if we're below the floor
+    if (newY <= floor && lives > 0) {
+        newY = floor;
+        grounded = true;
+        jumpVelocity = 0;
+        jumpCount = 0;
+    }
+
+    ac.setYCoordinate(newY);
+    jumpVelocity += gravity;
 }
 
 void WalkingStickman::handleInput(QKeyEvent& event) {
 
     //Call the handle input method from JumpingStickman that records the jumping key
-    JumpingStickman::handleInput(event);
+    if(lives > 0) {
+        JumpingStickman::handleInput(event);
 
-    if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
-        velocity = -8;
-        movingLeft = true;
-    }
-    if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
-        velocity = 8;
-        movingRight = true;
+        if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
+            velocity = 8;
+            movingLeft = true;
+        }
+        if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
+            velocity = 8;
+            movingRight = true;
+        }
     }
 
 }
@@ -81,6 +92,7 @@ void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
         movingLeft = false;
         velocity = 0;
     }
+
 }
 
 int WalkingStickman::getVelocity() const {
@@ -112,4 +124,6 @@ int WalkingStickman::getLives() const {
 }
 
 void WalkingStickman::died() {
+    jump();
+    velocity = 0;
 }

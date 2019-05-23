@@ -14,7 +14,17 @@ void Stage3Dialog::render(Renderer &renderer) {
 
 void Stage3Dialog::update() {
 
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+
     moveBackground();
+
+    if(walkingStickman->getLives() == 0) {
+        background.setVelocity(0);
+        for(auto& o: obstacles) {
+            o->setVelocity(0);
+        }
+    }
+
     stickman->update(obstacles);
     if (!stickman->isColliding()) {
         // Reduce distance to next obstacle
@@ -33,20 +43,16 @@ void Stage3Dialog::update() {
         o->collisionLogic(*stickman);
     }
 
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
     if(stickman->isColliding()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
         if(walkingStickman->getLives() == 0) {
             walkingStickman->died();
-        }
+         }
         else {
             walkingStickman->putBack();
             restartLevel();
         }
-//        if(walkingStickman->getBlinker() > 0) {
-//            walkingStickman->blink(counter);
-//        }
     }
 }
 
