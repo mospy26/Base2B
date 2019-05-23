@@ -9,7 +9,7 @@
 #include <memory>
 #include "walkingstickman.h"
 #include "background.h"
-#include "entity.h"
+#include "flyingentity.h"
 #include "moon.h"
 #include "score.h"
 #include "entityfactory.h"

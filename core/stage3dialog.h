@@ -11,7 +11,9 @@ public:
 
     void update() override;
     void render(Renderer& renderer) override;
+    void spawnObstacles(unsigned int counter) override;
     void moveBackground();
+    void restartLevel();
 
 private:
     QPixmap checkpointSprite;

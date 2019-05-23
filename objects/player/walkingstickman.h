@@ -13,8 +13,10 @@ public:
 
     void putBack();
     void blink(int time);
+    void setInitialCoordinates(Coordinate& coordinate);
     bool getBlinking() const;
     void setBlinker(int blinker);
+    int getBlinker() const;
     int getVelocity() const;
     void setVelocity(int velocity);
     void handleReleasedInput(QKeyEvent& event);

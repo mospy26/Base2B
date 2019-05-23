@@ -3,7 +3,7 @@
 WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity)
     : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity)
 {
-    initialCoordinates = JumpingStickman::getCoordinate();
+
 }
 
 void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
@@ -13,23 +13,23 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
     int newY = coordinate.getYCoordinate() + jumpVelocity;
     coordinate.setXCoordinate(coordinate.getXCoordinate() + velocity);
 
-//    if(blinker == 0) {
-//        blinking = false;
-//    }
+    if(blinker <= 0) {
+        blinking = false;
+    }
 
-//    for (auto &other : obstacles) {
-//        Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
+    for (auto &other : obstacles) {
+        Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
 
-//        if (col.overlapped) {
-//            putBack();
-//            // restart
-//            // stickman crashed
-//            // blink : extension
-//            colliding = true;
-//            blinking = true;
-//            blinker = 3;
-//        }
-//    }
+        if (col.overlapped) {
+            putBack();
+            // restart
+            // stickman crashed
+            // blink : extension
+            colliding = true;
+            if(!blinking) blinker = 3;
+            blinking = true;
+        }
+    }
 }
 
 void WalkingStickman::handleInput(QKeyEvent& event) {
@@ -49,8 +49,7 @@ void WalkingStickman::handleInput(QKeyEvent& event) {
 }
 
 void WalkingStickman::putBack() {
-    //setCoordinate(initialCoordinates);
-    //qDebug() << initialCoordinates.getXCoordinate();
+    setCoordinate(initialCoordinates);
 }
 
 void WalkingStickman::blink(int time) {
@@ -70,6 +69,10 @@ bool WalkingStickman::getBlinking() const {
 
 void WalkingStickman::setBlinker(int blinkerValue) {
     blinker = blinkerValue;
+}
+
+int WalkingStickman::getBlinker() const {
+    return blinker;
 }
 
 void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
@@ -97,4 +100,8 @@ bool WalkingStickman::isMovingRight() const {
 
 bool WalkingStickman::isMovingLeft() const {
     return movingLeft;
+}
+
+void WalkingStickman::setInitialCoordinates(Coordinate& coordinate) {
+    initialCoordinates = coordinate;
 }

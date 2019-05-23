@@ -4,6 +4,8 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives)
 {
     background.setVelocity(0);
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
+    walkingStickman->setInitialCoordinates(this->stickman->getCoordinate());
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -31,19 +33,15 @@ void Stage3Dialog::update() {
         o->collisionLogic(*stickman);
     }
 
-    Stickman& stickmanPtr = *stickman;
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickmanPtr);
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
-//    if(stickman->isColliding()) {
-//        walkingStickman->putBack();
-//    }
-
-//    if(walkingStickman->getBlinking()) {
-//        walkingStickman->blink(counter);
-//    }
-//    else {
-//        walkingStickman->setBlinker(0);
-//    }
+    if(stickman->isColliding()) {
+        walkingStickman->putBack();
+        restartLevel();
+        if(walkingStickman->getBlinker() > 0) {
+            walkingStickman->blink(counter);
+        }
+    }
 }
 
 void Stage3Dialog::moveBackground() {
@@ -71,5 +69,41 @@ void Stage3Dialog::moveBackground() {
         for(auto& obs : obstacles) {
             obs->setVelocity(0);
         }
+    }
+}
+
+void Stage3Dialog::restartLevel() {
+    background.setCoordinate(Coordinate(0,150,450));
+    obstacles.clear();
+    nextObstacle = 0;
+}
+
+void Stage3Dialog::spawnObstacles(unsigned int counter) {
+    // Check if it's time to spawn an obstacle
+    if (obstacleLayout.size() == 0 || distanceToSpawn > 0) return;
+    auto &e = obstacleLayout[nextObstacle];
+
+    // Check for collisions between next obstacle and current obstacles
+    bool isOverlapping = false;
+    if(nextObstacle < obstacleLayout.size()) {
+        for (auto &o : obstacles) {
+            if (Collision::overlaps(*e.first, *o)) {
+                isOverlapping = true;
+                break;
+            }
+        }
+    }
+
+    // Only spawn the obstacle if it isn't colliding with anything
+    if (!isOverlapping && nextObstacle < obstacleLayout.size()) {
+        auto obs = e.first->clone();
+        obs->setVelocity(background.getVelocity());
+        addObstacle(std::move(obs));
+    }
+
+    // Set next obstacle in sequence
+    if(nextObstacle < obstacleLayout.size()) {
+        distanceToSpawn = e.second;
+        nextObstacle = (nextObstacle + 1);
     }
 }
