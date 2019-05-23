@@ -3,6 +3,7 @@
 
 #include "stage2dialog.h"
 #include "walkingstickman.h"
+#include <QMediaPlayer>
 
 class Stage3Dialog : public Stage2Dialog
 {
@@ -19,6 +20,8 @@ private:
     QPixmap checkpointSprite;
     std::vector<Coordinate> checkpointLocations;
     unsigned int lives;
+    std::unique_ptr<QMediaPlayer> dieSongs;
+
 };
 
 #endif // STAGE3DIALOG_H

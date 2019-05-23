@@ -124,6 +124,7 @@ int WalkingStickman::getLives() const {
 }
 
 void WalkingStickman::died() {
+    jumpImpulse = 23;
     jump();
     velocity = 0;
 }

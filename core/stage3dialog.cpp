@@ -6,6 +6,8 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
     walkingStickman->setInitialCoordinates(this->stickman->getCoordinate());
+    dieSongs = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
+    dieSongs->setMedia(QUrl("qrc:/die.mp3"));
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -22,6 +24,9 @@ void Stage3Dialog::update() {
         background.setVelocity(0);
         for(auto& o: obstacles) {
             o->setVelocity(0);
+        }
+        if(dieSongs->state() == QMediaPlayer::StoppedState) {
+            exit(0);
         }
     }
 
@@ -47,6 +52,7 @@ void Stage3Dialog::update() {
     if(stickman->isColliding()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
         if(walkingStickman->getLives() == 0) {
+            dieSongs->play();
             walkingStickman->died();
          }
         else {
