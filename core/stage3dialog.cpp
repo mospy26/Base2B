@@ -22,11 +22,11 @@ void Stage3Dialog::update() {
 
     if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < 800) {
         Entity obstacle_back = *obstacles.back();
-        //checkpointSprite = std::make_unique<Checkpoint>(std::make_unique<Entity>("flag", Coordinate(obstacle_back.getCoordinate().getXCoordinate() + 800, 150, 450), background.getVelocity()));
-        checkpointSprite = std::make_unique<Entity>("flag", Coordinate(1200, 150, 450), background.getVelocity());
+        std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(1200, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
-        pix = pix.scaledToHeight(100);
-        checkpointSprite->setSprite(pix);
+        pix = pix.scaledToHeight(60);
+        entity->setSprite(pix);
+        std::unique_ptr<Entity> checkpointSprite = std::make_unique<Checkpoint>(std::move(entity));
         checkpointPlaced = true;
         obstacles.push_back(std::move(checkpointSprite));
     }
@@ -54,15 +54,15 @@ void Stage3Dialog::update() {
     spawnObstacles(counter);
 
     for (auto &c : clouds) {
-        c->collisionLogic(*stickman);
+        c->collisionLogic(*walkingStickman);
     }
 
     for (auto &o : obstacles) {
-        o->collisionLogic(*stickman);
+        o->collisionLogic(*walkingStickman);
     }
 
 
-    if(stickman->isColliding()) {
+    if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
         if(walkingStickman->getLives() == 0) {
             dieSongs->play();
@@ -72,6 +72,8 @@ void Stage3Dialog::update() {
             walkingStickman->putBack();
             restartLevel();
         }
+    } else if(walkingStickman->isReachedFlag()) {
+
     }
 }
 
@@ -107,6 +109,7 @@ void Stage3Dialog::restartLevel() {
     background.setCoordinate(Coordinate(0,150,450));
     obstacles.clear();
     nextObstacle = 0;
+    checkpointPlaced = false;
 }
 
 void Stage3Dialog::spawnObstacles(unsigned int counter) {

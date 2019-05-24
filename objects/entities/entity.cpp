@@ -1,5 +1,6 @@
 #include <QBitmap>
 #include "entity.h"
+#include <QDebug>
 
 Entity::Entity(std::string name, Coordinate coordinate, int velocity):
     name(name),

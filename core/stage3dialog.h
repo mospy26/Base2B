@@ -18,7 +18,6 @@ public:
     void restartLevel();
 
 private:
-    std::unique_ptr<Entity> checkpointSprite;
     std::vector<Coordinate> checkpointLocations;
     unsigned int lives;
     std::unique_ptr<QMediaPlayer> dieSongs;

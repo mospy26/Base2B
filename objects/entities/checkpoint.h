@@ -2,6 +2,7 @@
 #define CHECKPOINT_H
 
 #include "entitydecorator.h"
+#include "walkingstickman.h"
 
 class Checkpoint : public EntityDecorator
 {

@@ -20,6 +20,10 @@ public:
 
     bool getBlinking() const;
     void setBlinker(int blinker);
+
+    void setReachedFlag(bool reached);
+    bool isReachedFlag() const;
+
     int getBlinker() const;
     int getVelocity() const;
     void setVelocity(int velocity);
@@ -33,6 +37,9 @@ private:
     Coordinate initialCoordinates;
     int lives;
     int velocity = 0;
+    bool reachedFlag;
+
+
     bool blinking = false;
     int blinker = 0;
 };

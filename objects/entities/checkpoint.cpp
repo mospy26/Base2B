@@ -7,8 +7,9 @@ Checkpoint::Checkpoint(std::unique_ptr<Entity> flag)
 }
 
 void Checkpoint::collisionLogic(Stickman &stickman) {
+    WalkingStickman* walking = dynamic_cast<WalkingStickman*>(&stickman);
     if(stickman.isColliding()) {
-
+        walking->setReachedFlag(true);
     }
     EntityDecorator::collisionLogic(stickman);
 }

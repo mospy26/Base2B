@@ -14,9 +14,9 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 
     ac.setXCoordinate(ac.getXCoordinate() + velocity);
 
-    if(blinker <= 0) {
-        blinking = false;
-    }
+//    if(blinker <= 0) {
+//        blinking = false;
+//    }
 
     for (auto &other : obstacles) {
         Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
@@ -127,4 +127,12 @@ void WalkingStickman::died() {
     jumpImpulse = 23;
     jump();
     velocity = 0;
+}
+
+void WalkingStickman::setReachedFlag(bool reached) {
+    reachedFlag = reached;
+}
+
+bool WalkingStickman::isReachedFlag() const {
+    return reachedFlag;
 }
