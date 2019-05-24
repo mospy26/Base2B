@@ -50,7 +50,7 @@ void Entity::updateCoordinate() {
 }
 
 void Entity::updateSprite(unsigned int time) {
-    if (name == "cactus" || name == "cloud") {
+    if (name == "cactus" || name == "cloud" || name == "flag") {
         return;
     }
     std::string spritePath = ":sprites/" + name + std::to_string((time/10)%2).append(".png");

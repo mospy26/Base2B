@@ -29,5 +29,6 @@
         <file>sprites/sprite0.png</file>
         <file>sprites/sprite1.png</file>
         <file>die.mp3</file>
+        <file>sprites/flag.png</file>
     </qresource>
 </RCC>

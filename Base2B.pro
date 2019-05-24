@@ -61,7 +61,8 @@ SOURCES += \
     core/testing/testcases/flyingobstacletest.cpp \
     core/stagefactory.cpp \
     core/stage3dialog.cpp \
-    objects/player/walkingstickman.cpp
+    objects/player/walkingstickman.cpp \
+    objects/entities/checkpoint.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -92,7 +93,8 @@ HEADERS += \
     core/testing/testcases/flyingobstacletest.h \
     core/stagefactory.h \
     core/stage3dialog.h \
-    objects/player/walkingstickman.h
+    objects/player/walkingstickman.h \
+    objects/entities/checkpoint.h
 
 FORMS += \
         dialog.ui

@@ -20,6 +20,18 @@ void Stage3Dialog::update() {
 
     moveBackground();
 
+    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < 800) {
+        Entity obstacle_back = *obstacles.back();
+        //checkpointSprite = std::make_unique<Checkpoint>(std::make_unique<Entity>("flag", Coordinate(obstacle_back.getCoordinate().getXCoordinate() + 800, 150, 450), background.getVelocity()));
+        checkpointSprite = std::make_unique<Entity>("flag", Coordinate(1200, 150, 450), background.getVelocity());
+        QPixmap pix(":/sprites/flag.png");
+        pix = pix.scaledToHeight(100);
+        checkpointSprite->setSprite(pix);
+        checkpointPlaced = true;
+        obstacles.push_back(std::move(checkpointSprite));
+    }
+
+    //stickman dies!
     if(walkingStickman->getLives() == 0) {
         background.setVelocity(0);
         for(auto& o: obstacles) {
@@ -30,6 +42,7 @@ void Stage3Dialog::update() {
         }
     }
 
+    //update
     stickman->update(obstacles);
     if (!stickman->isColliding()) {
         // Reduce distance to next obstacle

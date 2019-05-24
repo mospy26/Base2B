@@ -28,6 +28,7 @@ public:
     virtual void setSize(int width, int height);
     virtual int getVelocity();
     virtual void setVelocity(int v);
+    void setSprite(QPixmap &pm);
 
     virtual std::unique_ptr<Entity> clone();
 
@@ -39,7 +40,6 @@ protected:
     int widthOverride;
     int heightOverride;
 
-    void setSprite(QPixmap &pm);
     void updateSprite(unsigned int time);
 };
 

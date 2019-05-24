@@ -45,7 +45,7 @@ void WalkingStickman::handleInput(QKeyEvent& event) {
         JumpingStickman::handleInput(event);
 
         if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
-            velocity = 8;
+            velocity = -8;
             movingLeft = true;
         }
         if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
