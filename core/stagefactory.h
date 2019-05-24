@@ -8,6 +8,7 @@
 #include "game.h"
 #include "entityfactory.h"
 #include "dialog.h"
+#include "level.h"
 
 class StageFactory {
 public:
@@ -20,8 +21,9 @@ public:
         int velocity;
         std::string size;
         int lives;
+        std::vector<std::unique_ptr<Level>>* levels;
         Game *game;
-        std::vector<std::pair<std::unique_ptr<Entity>, int>> *obstacles;
+        std::vector<std::pair<std::unique_ptr<Entity>, int>>* obstacles;
     };
 
     /**

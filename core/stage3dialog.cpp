@@ -1,13 +1,15 @@
 #include "stage3dialog.h"
 
-Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives)
+Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels)
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels))
 {
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
     walkingStickman->setInitialCoordinates(this->stickman->getCoordinate());
-    dieSongs = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
-    dieSongs->setMedia(QUrl("qrc:/die.mp3"));
+    dieSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
+    dieSong->setMedia(QUrl("qrc:/die.mp3"));
+    winSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
+    winSong->setMedia(QUrl("qrc:/win.mp3"));
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -20,9 +22,9 @@ void Stage3Dialog::update() {
 
     moveBackground();
 
-    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < 800) {
+    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9) {
         Entity obstacle_back = *obstacles.back();
-        std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(1200, 150, 450), background.getVelocity());
+        std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(800, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
         pix = pix.scaledToHeight(60);
         entity->setSprite(pix);
@@ -37,7 +39,7 @@ void Stage3Dialog::update() {
         for(auto& o: obstacles) {
             o->setVelocity(0);
         }
-        if(dieSongs->state() == QMediaPlayer::StoppedState) {
+        if(dieSong->state() == QMediaPlayer::StoppedState) {
             exit(0);
         }
     }
@@ -61,11 +63,11 @@ void Stage3Dialog::update() {
         o->collisionLogic(*walkingStickman);
     }
 
-
+    //qDebug() << walkingStickman->isReachedFlag();
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
         if(walkingStickman->getLives() == 0) {
-            dieSongs->play();
+            dieSong->play();
             walkingStickman->died();
          }
         else {
@@ -73,7 +75,13 @@ void Stage3Dialog::update() {
             restartLevel();
         }
     } else if(walkingStickman->isReachedFlag()) {
-
+        if(levels.size() >= 1) {
+            nextLevel();
+        }
+        else {
+            win();
+            if(winSong->state() == QMediaPlayer::StoppedState && playedWin) exit(0);
+        }
     }
 }
 
@@ -141,3 +149,24 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
         nextObstacle = (nextObstacle + 1);
     }
 }
+
+void Stage3Dialog::nextLevel() {
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+    obstacles.clear();
+    obstacleLayout.clear();
+    obstacleLayout = levels.front()->getObstacleLayout();
+    levels.erase(levels.begin());
+    walkingStickman->setReachedFlag(false);
+    checkpointPlaced = false;
+    nextObstacle = 0;
+}
+
+void Stage3Dialog::win() {
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+    if(winSong->state() == QMediaPlayer::StoppedState && !playedWin) {
+        winSong->play();
+        playedWin = true;
+    }
+    walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 4);
+}
+

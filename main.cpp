@@ -19,6 +19,7 @@
 #include "swaprendererstage.h"
 #include "flyingobstacletest.h"
 #include "stagefactory.h"
+#include "level.h"
 #include <iostream>
 using namespace std;
 
@@ -44,6 +45,40 @@ bool isNumber(QString value) {
     return ok;
 }
 
+vector<pair<std::unique_ptr<Entity>, int>> obstacleLayoutReader(QString value) {
+    vector<pair<std::unique_ptr<Entity>, int>> obstacles;
+    QStringList parts = value.split("|");
+    EntityFactory factory;
+    for (QString &s : parts) {
+        QStringList sl = s.split(",");
+
+        // Make sure each obstacle config has 8 integer parameters
+        bool ok = true;
+        for (int i = 0; i < sl.length() && ok; i++) {
+            ok = isNumber(sl.at(i));
+        }
+        if (sl.length() != 8 || !ok) {
+            cout << "Invalid obstacle values. Terminating.";
+            exit(-1);
+        }
+
+        // Make a coloured bird obstacle according to the config
+        auto e = factory.getEntity("bird");
+        e = make_unique<ColouredEntity>(move(e), QColor(sl.at(4).toInt(), sl.at(5).toInt(), sl.at(6).toInt()));
+        e->setSize(sl.at(0).toInt(), sl.at(1).toInt());
+        e->getCoordinate().setYCoordinate(sl.at(2).toInt());
+        int flyRate = sl.at(7).toInt();
+        if (flyRate != 0) {
+            e = make_unique<FlyingEntity>(move(e), flyRate);
+        }
+
+        // Add the pair (obstacle, spacing_to_next_obstacle) to our obstacle layout
+        obstacles.push_back(make_pair(move(e), sl.at(3).toInt()));
+    }
+
+    return move(obstacles);
+}
+
 int main(int argc, char *argv[]) {
     srand(time(nullptr));
 
@@ -60,6 +95,9 @@ int main(int argc, char *argv[]) {
     vector<pair<unique_ptr<Entity>, int>> obstacles;
     stageConfig.obstacles = &obstacles;
     stageConfig.game = &game;
+
+    vector<unique_ptr<Level>> levels;
+    stageConfig.levels = &levels;
 
     // Read config file and set basic game attributes
     if (!exists("../../../../Base2B/config.txt")) {
@@ -124,34 +162,7 @@ int main(int argc, char *argv[]) {
                 return 0;
             }
         } else if (setting == "obstacles:") {
-            QStringList parts = value.split("|");
-            EntityFactory factory;
-            for (QString &s : parts) {
-                QStringList sl = s.split(",");
-
-                // Make sure each obstacle config has 8 integer parameters
-                bool ok = true;
-                for (int i = 0; i < sl.length() && ok; i++) {
-                    ok = isNumber(sl.at(i));
-                }
-                if (sl.length() != 8 || !ok) {
-                    cout << "Invalid obstacle values. Terminating.";
-                    return 0;
-                }
-
-                // Make a coloured bird obstacle according to the config
-                auto e = factory.getEntity("bird");
-                e = make_unique<ColouredEntity>(move(e), QColor(sl.at(4).toInt(), sl.at(5).toInt(), sl.at(6).toInt()));
-                e->setSize(sl.at(0).toInt(), sl.at(1).toInt());
-                e->getCoordinate().setYCoordinate(sl.at(2).toInt());
-                int flyRate = sl.at(7).toInt();
-                if (flyRate != 0) {
-                    e = make_unique<FlyingEntity>(move(e), flyRate);
-                }
-
-                // Add the pair (obstacle, spacing_to_next_obstacle) to our obstacle layout
-                obstacles.push_back(make_pair(move(e), sl.at(3).toInt()));
-            }
+            obstacles = obstacleLayoutReader(value);
         } else if (setting == "testMode:") {
             stageConfig.testMode = value.compare("on") == 0;
         } else if (setting == "lives:") {
@@ -166,9 +177,26 @@ int main(int argc, char *argv[]) {
                 return 0;
             }
             stageConfig.lives = lives;
+        } else if(setting == "moreObstacles:") {
+            QStringList layoutList = value.split("->");
+            if(layoutList.size() < 1) {
+                cout << "Need to have level 2 obstacles and perhaps more. Terminating.";
+                return 0;
+            }
+            vector<pair<std::unique_ptr<Entity>, int>> obs;
+            for(int i = 0; i < layoutList.size(); i++) {
+                obs = obstacleLayoutReader(layoutList[i]);
+                levels.push_back(make_unique<Level>(move(obs)));
+                obs.clear();
+            }
         }
         line = stream.readLine();
     };
+
+    if(stageConfig.stage == 3 && levels.size() < 1) {
+        cout << "Need to have at least 2 levels. Terminating.";
+        return 0;
+    }
 
     // Construct and set stage
     game.setStage(StageFactory(stageConfig).createStage());

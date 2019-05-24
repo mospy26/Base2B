@@ -1,7 +1,7 @@
 #include "walkingstickman.h"
 
 WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity)
-    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity)
+    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity), reachedFlag(false)
 {
 
 }

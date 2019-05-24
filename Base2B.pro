@@ -62,7 +62,8 @@ SOURCES += \
     core/stagefactory.cpp \
     core/stage3dialog.cpp \
     objects/player/walkingstickman.cpp \
-    objects/entities/checkpoint.cpp
+    objects/entities/checkpoint.cpp \
+    core/level.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -94,7 +95,8 @@ HEADERS += \
     core/stagefactory.h \
     core/stage3dialog.h \
     objects/player/walkingstickman.h \
-    objects/entities/checkpoint.h
+    objects/entities/checkpoint.h \
+    core/level.h
 
 FORMS += \
         dialog.ui
