@@ -10,6 +10,7 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     dieSong->setMedia(QUrl("qrc:/die.mp3"));
     winSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     winSong->setMedia(QUrl("qrc:/win.mp3"));
+    winSong->setVolume(1000);
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -63,7 +64,7 @@ void Stage3Dialog::update() {
         o->collisionLogic(*walkingStickman);
     }
 
-    //qDebug() << walkingStickman->isReachedFlag();
+    //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
         if(walkingStickman->getLives() == 0) {
@@ -73,8 +74,9 @@ void Stage3Dialog::update() {
         else {
             walkingStickman->putBack();
             restartLevel();
+            checkpointPlaced = false;
         }
-    } else if(walkingStickman->isReachedFlag()) {
+    } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
         if(levels.size() >= 1) {
             nextLevel();
         }
@@ -167,6 +169,6 @@ void Stage3Dialog::win() {
         winSong->play();
         playedWin = true;
     }
-    walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 4);
+    walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
 }
 
