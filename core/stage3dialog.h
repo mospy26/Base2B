@@ -24,9 +24,9 @@ private:
     std::vector<Coordinate> checkpointLocations;
     unsigned int lives;
     std::unique_ptr<QMediaPlayer> dieSong;
-    bool checkpointPlaced;
     std::vector<std::unique_ptr<Level>> levels;
     std::unique_ptr<QMediaPlayer> winSong;
+    bool checkpointPlaced = false;
     bool playedWin = false;
 };
 

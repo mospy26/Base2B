@@ -169,6 +169,7 @@ void Stage3Dialog::win() {
         winSong->play();
         playedWin = true;
     }
+    walkingStickman->setVelocity(0);
     walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
 }
 
