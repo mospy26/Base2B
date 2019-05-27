@@ -20,8 +20,8 @@ public:
     void jump();
     bool canJump();
 
-    virtual void handleInput(QKeyEvent &event) override;
-    virtual void update(std::vector<std::unique_ptr<Entity>> &obstacles) override;
+    virtual void handleInput(QKeyEvent &event);
+    virtual void update(std::vector<std::unique_ptr<Entity>> &obstacles);
 
 protected:
     int floor;

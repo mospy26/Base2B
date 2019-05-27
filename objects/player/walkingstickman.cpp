@@ -136,3 +136,8 @@ void WalkingStickman::setReachedFlag(bool reached) {
 bool WalkingStickman::isReachedFlag() const {
     return reachedFlag;
 }
+
+void WalkingStickman::setMovingIndicators(bool right, bool left) {
+    movingLeft = left;
+    movingRight = right;
+}

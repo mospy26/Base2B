@@ -15,4 +15,8 @@ void KeyReleasedCommand::execute(QInputEvent *event) {
     else if(keyEvent->key() == Qt::Key_Left && !keyEvent->isAutoRepeat()) {
         stickman->setVelocity(0);
     }
+
+    int stickmanVelocity = stickman->getVelocity();
+    stickman->setMovingIndicators(stickmanVelocity == 0 ? false: true, stickmanVelocity == 0 ? false : true);
+
 }

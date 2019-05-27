@@ -19,7 +19,7 @@
 class Dialog : public GameStage {
 public:
     Dialog(Game &game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory);
-    ~Dialog();
+    virtual ~Dialog();
 
     virtual void update();
     virtual void render(Renderer &renderer);

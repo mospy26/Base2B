@@ -1,7 +1,7 @@
 #include "stage3dialog.h"
 
-Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode)
+Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels)
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels))
 {
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
@@ -11,11 +11,6 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     winSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     winSong->setMedia(QUrl("qrc:/win.mp3"));
     winSong->setVolume(1000);
-    if(infiniteMode) {
-        std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
-        levels.insert(levels.begin(), std::move(initialLevel));
-        obstacleLayout = levels.front()->getObstacleLayout();
-    }
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -81,7 +76,7 @@ void Stage3Dialog::update() {
             checkpointPlaced = false;
         }
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
-        if(levelPointer <= levels.size() - 1) {
+        if(levels.size() >= 1) {
             nextLevel();
         }
         else {
@@ -159,13 +154,9 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
 void Stage3Dialog::nextLevel() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     obstacles.clear();
-    if(infiniteMode && levelPointer == levels.size()) {
-        levelPointer = 0;
-    }
-    else {
-        levelPointer++;
-    }
-    obstacleLayout = levels[levelPointer]->getObstacleLayout();
+    obstacleLayout.clear();
+    obstacleLayout = levels.front()->getObstacleLayout();
+    levels.erase(levels.begin());
     walkingStickman->setReachedFlag(false);
     checkpointPlaced = false;
     nextObstacle = 0;
