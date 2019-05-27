@@ -99,10 +99,13 @@ int main(int argc, char *argv[]) {
     vector<unique_ptr<Level>> levels;
     stageConfig.levels = &levels;
 
+    int infiniteMode = -1;
+    stageConfig.infiniteMode = false;
+
     // Read config file and set basic game attributes
     if (!exists("../../../../Base2B/config.txt")) {
         cout << "Config file not found. Terminating" << endl;
-        return 0;
+        return -1;
     }
     QFile inputFile(QString("../../../../Base2B/config.txt"));
     inputFile.open(QIODevice::ReadOnly);
@@ -112,7 +115,7 @@ int main(int argc, char *argv[]) {
         QStringList args = line.split(" ");
         if (args.length() != 2) {
             cout << "Invalid config format. Terminating" << endl;
-            return 0;
+            return -1;
         }
         string setting = line.split(" ").at(0).toStdString();
         QString value = line.split(" ").at(1);
@@ -123,24 +126,24 @@ int main(int argc, char *argv[]) {
                     size.compare("large") != 0 &&
                     size.compare("giant") != 0) {
                 cout << "Size must be tiny, normal, large or giant. Terminating" << endl;
-                return 0;
+                return -1;
             }
             stageConfig.size = size;
         } else if (setting == "x:") {
             if (!isNumber(value.toStdString())) {
                 cout << "X coordinate must be set to a postive integer. Terminating";
-                return 0;
+                return -1;
             }
             unsigned int x = value.toUInt();
             if (x > 800) {
                 cout << "X coordinate must be between 0 and 800. Terminating";
-                return 0;
+                return -1;
             }
             stageConfig.coord = Coordinate(x, 150, 450);
         } else if (setting == "velocity:") {
             if (!isNumber(value.toStdString())) {
                 cout << "Velocity must be set to a positive integer. Terminating";
-                return 0;
+                return -1;
             }
             stageConfig.velocity = value.toInt();
         } else if (setting == "background:") {
@@ -149,17 +152,17 @@ int main(int argc, char *argv[]) {
                 stageConfig.background = path;
             } else {
                 cout << "File \"" + path + "\" not found. Terminating";
-                return 0;
+                return -1;
             }
         } else if (setting == "stage:") {
             if (!isNumber(value.toStdString())) {
                 cout << "Stage value must be a positive integer. Terminating";
-                return 0;
+                return -1;
             }
             stageConfig.stage = value.toInt();
             if (stageConfig.stage != 1 && stageConfig.stage != 2 && stageConfig.stage != 3) {
                 cout << "Invalid stage value. Terminating";
-                return 0;
+                return -1;
             }
         } else if (setting == "obstacles:") {
             obstacles = obstacleLayoutReader(value);
@@ -169,19 +172,19 @@ int main(int argc, char *argv[]) {
             bool ok = isNumber(value);
             if(!ok) {
                 cout << "Invalid lives value. Terminating.";
-                return 0;
+                return -1;
             }
             int lives = value.toInt();
             if(lives <= 0) {
                 cout << "Cannot start with 0 or negative lives. Terminating.";
-                return 0;
+                return -1;
             }
             stageConfig.lives = lives;
         } else if(setting == "moreObstacles:") {
             QStringList layoutList = value.split("->");
             if(layoutList.size() < 1) {
                 cout << "Need to have level 2 obstacles and perhaps more. Terminating.";
-                return 0;
+                return -1;
             }
             vector<pair<std::unique_ptr<Entity>, int>> obs;
             for(int i = 0; i < layoutList.size(); i++) {
@@ -189,13 +192,24 @@ int main(int argc, char *argv[]) {
                 levels.push_back(make_unique<Level>(move(obs)));
                 obs.clear();
             }
+        } else if(setting == "infiniteMode:") {
+            if(value == "yes") {
+                stageConfig.infiniteMode = true;
+            }
+            else if(value == "no") {
+                stageConfig.infiniteMode = false;
+            }
+            else {
+                cout << "Infinite mode must be \"yes\" or \"no\". Terminating." << std::endl;
+                return -1;
+            }
         }
         line = stream.readLine();
     };
 
     if(stageConfig.stage == 3 && levels.size() < 1) {
         cout << "Need to have at least 2 levels. Terminating.";
-        return 0;
+        return -1;
     }
 
     // Construct and set stage

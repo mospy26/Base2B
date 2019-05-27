@@ -10,6 +10,7 @@ public:
 
     std::vector<std::pair<std::unique_ptr<Entity>, int>> getObstacleLayout();
 
+
 private:
     std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout;
     std::vector<std::unique_ptr<Entity>> powerups;

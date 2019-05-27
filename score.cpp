@@ -9,8 +9,8 @@ Score::Score():
     }
 }
 
-void Score::increment() {
-    currScore++;
+void Score::increment(int value) {
+    currScore += value;
 }
 
 // Render score from left to right. Requires FILO reading of integer

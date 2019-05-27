@@ -10,7 +10,7 @@
 class Stage3Dialog : public Stage2Dialog
 {
 public:
-    Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels);
+    Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode);
 
     void update() override;
     void render(Renderer& renderer) override;
@@ -26,6 +26,8 @@ private:
     std::unique_ptr<QMediaPlayer> dieSong;
     std::vector<std::unique_ptr<Level>> levels;
     std::unique_ptr<QMediaPlayer> winSong;
+    bool infiniteMode;
+    int levelPointer = 0;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };
