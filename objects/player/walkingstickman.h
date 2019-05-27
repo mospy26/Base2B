@@ -3,6 +3,7 @@
 
 #include "jumpingstickman.h"
 #include "collision.h"
+#include "stickmanstate.h"
 
 class WalkingStickman : public JumpingStickman {
 public:
@@ -38,7 +39,6 @@ private:
     int lives;
     int velocity = 0;
     bool reachedFlag;
-
 
     bool blinking = false;
     int blinker = 0;

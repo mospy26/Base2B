@@ -1,7 +1,7 @@
 #include "stage3dialog.h"
 
-Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels))
+Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode)
 {
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
@@ -11,6 +11,11 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     winSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     winSong->setMedia(QUrl("qrc:/win.mp3"));
     winSong->setVolume(1000);
+    if(infiniteMode) {
+        std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
+        levels.insert(levels.begin(), std::move(initialLevel));
+        obstacleLayout = levels.front()->getObstacleLayout();
+    }
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -27,7 +32,7 @@ void Stage3Dialog::update() {
         Entity obstacle_back = *obstacles.back();
         std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(800, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
-        pix = pix.scaledToHeight(60);
+        pix = pix.scaledToHeight(220);
         entity->setSprite(pix);
         std::unique_ptr<Entity> checkpointSprite = std::make_unique<Checkpoint>(std::move(entity));
         checkpointPlaced = true;
@@ -51,7 +56,6 @@ void Stage3Dialog::update() {
         // Reduce distance to next obstacle
         distanceToSpawn -= background.getVelocity();
         background.update();
-        //speedUp(counter);
         score.increment();
     }
     spawnObstacles(counter);
@@ -77,7 +81,7 @@ void Stage3Dialog::update() {
             checkpointPlaced = false;
         }
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
-        if(levels.size() >= 1) {
+        if(levelPointer <= levels.size() - 1) {
             nextLevel();
         }
         else {
@@ -155,9 +159,13 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
 void Stage3Dialog::nextLevel() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     obstacles.clear();
-    obstacleLayout.clear();
-    obstacleLayout = levels.front()->getObstacleLayout();
-    levels.erase(levels.begin());
+    if(infiniteMode && levelPointer == levels.size()) {
+        levelPointer = 0;
+    }
+    else {
+        levelPointer++;
+    }
+    obstacleLayout = levels[levelPointer]->getObstacleLayout();
     walkingStickman->setReachedFlag(false);
     checkpointPlaced = false;
     nextObstacle = 0;
@@ -172,4 +180,3 @@ void Stage3Dialog::win() {
     walkingStickman->setVelocity(0);
     walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
 }
-

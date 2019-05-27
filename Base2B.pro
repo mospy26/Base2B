@@ -63,7 +63,9 @@ SOURCES += \
     core/stage3dialog.cpp \
     objects/player/walkingstickman.cpp \
     objects/entities/checkpoint.cpp \
-    core/level.cpp
+    core/level.cpp \
+    core/keypresscommand.cpp \
+    core/keyreleasedcommand.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -96,7 +98,10 @@ HEADERS += \
     core/stage3dialog.h \
     objects/player/walkingstickman.h \
     objects/entities/checkpoint.h \
-    core/level.h
+    core/level.h \
+    core/command.h \
+    core/keypresscommand.h \
+    core/keyreleasedcommand.h
 
 FORMS += \
         dialog.ui

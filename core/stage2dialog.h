@@ -19,11 +19,9 @@ public:
 
 protected:
     virtual void spawnObstacles(unsigned int counter);
-
     std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout;
     int distanceToSpawn;
     int nextObstacle;
-
 };
 
 #endif // STAGE2DIALOG_H
