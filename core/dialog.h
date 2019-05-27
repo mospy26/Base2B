@@ -18,12 +18,12 @@
 
 class Dialog : public GameStage {
 public:
-    Dialog(Game &game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory);
+    Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory);
     virtual ~Dialog();
 
     virtual void update();
-    virtual void render(Renderer &renderer);
-    virtual void input(QKeyEvent &event);
+    virtual void render(Renderer& renderer);
+    virtual void input(QKeyEvent& event);
     virtual void releasedInput(QKeyEvent& event);
 
     void setStickman(std::unique_ptr<Stickman> stickman);
@@ -35,11 +35,11 @@ protected:
     void addObstacle(std::unique_ptr<Entity> obstacle);
     void speedUp(unsigned int counter);
 
-    void renderBackground(Renderer &renderer, unsigned int counter);
-    void renderClouds(Renderer &renderer, unsigned int counter);
-    void renderObstacles(Renderer &renderer, unsigned int counter);
+    void renderBackground(Renderer& renderer, unsigned int counter);
+    void renderClouds(Renderer& renderer, unsigned int counter);
+    void renderObstacles(Renderer& renderer, unsigned int counter);
 
-    Game &game;
+    Game& game;
     std::unique_ptr<Stickman> stickman;
     std::unique_ptr<EntityFactory> factory;
     Background background;

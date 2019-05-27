@@ -1,7 +1,7 @@
 #include "keyreleasedcommand.h"
 
-KeyReleasedCommand::KeyReleasedCommand(Stage3Dialog& dialog, WalkingStickman& stickman)
-    : Command(dialog, stickman)
+KeyReleasedCommand::KeyReleasedCommand(WalkingStickman& stickman)
+    : Command(stickman)
 {
 
 }
@@ -9,14 +9,12 @@ KeyReleasedCommand::KeyReleasedCommand(Stage3Dialog& dialog, WalkingStickman& st
 void KeyReleasedCommand::execute(QInputEvent *event) {
     QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
 
+    stickman->setVelocity(0);
+
     if(keyEvent->key() == Qt::Key_Right && !keyEvent->isAutoRepeat()) {
-        stickman->setVelocity(0);
+        stickman->setMovingIndicators(false, stickman->isMovingLeft());
     }
     else if(keyEvent->key() == Qt::Key_Left && !keyEvent->isAutoRepeat()) {
-        stickman->setVelocity(0);
+        stickman->setMovingIndicators(stickman->isMovingRight(), false);
     }
-
-    int stickmanVelocity = stickman->getVelocity();
-    stickman->setMovingIndicators(stickmanVelocity == 0 ? false: true, stickmanVelocity == 0 ? false : true);
-
 }

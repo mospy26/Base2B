@@ -5,6 +5,8 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 {
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
+    keyPress = std::make_unique<KeyPressCommand>(*walkingStickman);
+    keyReleased = std::make_unique<KeyReleasedCommand>(*walkingStickman);
     walkingStickman->setInitialCoordinates(this->stickman->getCoordinate());
     dieSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     dieSong->setMedia(QUrl("qrc:/die.mp3"));
@@ -170,4 +172,12 @@ void Stage3Dialog::win() {
     }
     walkingStickman->setVelocity(0);
     walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
+}
+
+void Stage3Dialog::input(QKeyEvent &event) {
+    keyPress->execute(&event);
+}
+
+void Stage3Dialog::releasedInput(QKeyEvent &event) {
+    keyReleased->execute(&event);
 }

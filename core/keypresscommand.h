@@ -6,7 +6,7 @@
 class KeyPressCommand : public Command
 {
 public:
-    KeyPressCommand(Stage3Dialog& dialog, WalkingStickman& stickman);
+    KeyPressCommand(WalkingStickman& stickman);
 
     void execute(QInputEvent* event) override;
 };

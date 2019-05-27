@@ -6,7 +6,7 @@
 class KeyReleasedCommand : public Command
 {
 public:
-    KeyReleasedCommand(Stage3Dialog& dialog, WalkingStickman& stickman);
+    KeyReleasedCommand(WalkingStickman& stickman);
 
     void execute(QInputEvent* event) override;
 };

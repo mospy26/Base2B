@@ -16,6 +16,8 @@ public:
 
     virtual void update();
     virtual void render(Renderer &renderer);
+    virtual void input(QKeyEvent& event) override;
+    virtual void releasedInput(QKeyEvent& event) override;
 
 protected:
     virtual void spawnObstacles(unsigned int counter);
