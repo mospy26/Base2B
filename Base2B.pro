@@ -65,7 +65,9 @@ SOURCES += \
     objects/entities/checkpoint.cpp \
     core/level.cpp \
     core/keypresscommand.cpp \
-    core/keyreleasedcommand.cpp
+    core/keyreleasedcommand.cpp \
+    objects/entities/giantpowerup.cpp \
+    objects/entities/powerup.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -101,7 +103,9 @@ HEADERS += \
     core/level.h \
     core/command.h \
     core/keypresscommand.h \
-    core/keyreleasedcommand.h
+    core/keyreleasedcommand.h \
+    objects/entities/powerup.h \
+    objects/entities/giantpowerup.h
 
 FORMS += \
         dialog.ui

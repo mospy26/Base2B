@@ -17,6 +17,7 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
+    renderPowerups(renderer);
 }
 
 void Stage3Dialog::update() {
@@ -24,6 +25,7 @@ void Stage3Dialog::update() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
     moveBackground();
+    spawnPowerups(counter);
 
     if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9) {
         Entity obstacle_back = *obstacles.back();
@@ -65,6 +67,10 @@ void Stage3Dialog::update() {
         o->collisionLogic(*walkingStickman);
     }
 
+    for (auto& powerup : powerups) {
+        powerup->collisionLogic(*walkingStickman);
+    }
+
     //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
@@ -98,12 +104,18 @@ void Stage3Dialog::moveBackground() {
         for(auto& obs : obstacles) {
             obs->setVelocity(8);
         }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(8);
+        }
     }
     else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
         walkingStickman->getCoordinate().setXCoordinate(0);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
             obs->setVelocity(0);
+        }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(0);
         }
 
         //do stickman : can go backwards instead of stopping it - extension
@@ -113,6 +125,9 @@ void Stage3Dialog::moveBackground() {
         for(auto& obs : obstacles) {
             obs->setVelocity(0);
         }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(0);
+        }
     }
 }
 
@@ -121,6 +136,7 @@ void Stage3Dialog::restartLevel() {
     obstacles.clear();
     nextObstacle = 0;
     checkpointPlaced = false;
+    powerups.clear();
 }
 
 void Stage3Dialog::spawnObstacles(unsigned int counter) {
@@ -162,6 +178,7 @@ void Stage3Dialog::nextLevel() {
     walkingStickman->setReachedFlag(false);
     checkpointPlaced = false;
     nextObstacle = 0;
+    powerups.clear();
 }
 
 void Stage3Dialog::win() {
@@ -180,4 +197,42 @@ void Stage3Dialog::input(QKeyEvent &event) {
 
 void Stage3Dialog::releasedInput(QKeyEvent &event) {
     keyReleased->execute(&event);
+}
+
+void Stage3Dialog::spawnPowerups(unsigned int counter) {
+    srand(time(NULL));
+    if(counter%300 == 0) {
+        int randomX = rand() % 800 + 800;
+        int randomName = rand() % 4;
+        std::string name;
+        switch(randomName) {
+
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+
+
+        }
+        QPixmap pix(":/sprites/giant.png");
+        pix = pix.scaledToHeight(50);
+        std::unique_ptr<Powerup> powerup = std::make_unique<GiantPowerup>("giant", Coordinate(randomX, 450, 450), background.getVelocity());
+        powerup->setSprite(pix);
+        powerups.push_back(std::move(powerup));
+    }
+}
+
+void Stage3Dialog::renderPowerups(Renderer& renderer) {
+    for(auto& powerup : powerups) {
+        powerup->render(renderer, counter);
+        qDebug() << "b" <<  powerup->getCoordinate().getXCoordinate();
+    }
+    for(auto& powerup : powerups) {
+        powerup->updateCoordinate();
+        qDebug() << powerup->getCoordinate().getXCoordinate();
+    }
 }

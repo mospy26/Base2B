@@ -31,5 +31,6 @@
         <file>die.mp3</file>
         <file>sprites/flag.png</file>
         <file>win.mp3</file>
+        <file>sprites/giant.png</file>
     </qresource>
 </RCC>

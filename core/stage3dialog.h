@@ -7,6 +7,8 @@
 #include "level.h"
 #include "keypresscommand.h"
 #include "keyreleasedcommand.h"
+#include "time.h"
+#include "giantpowerup.h"
 #include <QMediaPlayer>
 
 class Stage3Dialog : public Stage2Dialog
@@ -19,10 +21,12 @@ public:
     void update() override;
     void render(Renderer& renderer) override;
     void spawnObstacles(unsigned int counter) override;
+    void renderPowerups(Renderer& renderer);
     void moveBackground();
     void restartLevel();
     void nextLevel();
     void win();
+    void spawnPowerups(unsigned int counter);
 
 private:
     std::vector<Coordinate> checkpointLocations;
@@ -30,8 +34,9 @@ private:
     std::unique_ptr<QMediaPlayer> dieSong;
     std::vector<std::unique_ptr<Level>> levels;
     std::unique_ptr<QMediaPlayer> winSong;
-    std::unique_ptr<KeyPressCommand> keyPress;
-    std::unique_ptr<KeyReleasedCommand> keyReleased;
+    std::unique_ptr<Command> keyPress;
+    std::unique_ptr<Command> keyReleased;
+    std::vector<std::unique_ptr<Powerup>> powerups;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };
