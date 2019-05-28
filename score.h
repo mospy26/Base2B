@@ -11,7 +11,7 @@ class Score {
 public:
     Score();
 
-    void increment();
+    void increment(unsigned int value = 1);
     void render(Renderer &renderer);
 
 private:

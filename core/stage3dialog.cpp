@@ -71,7 +71,7 @@ void Stage3Dialog::update() {
         // Reduce distance to next obstacle
         distanceToSpawn -= background.getVelocity();
         background.update();
-        score.increment();
+        //score.increment();
     }
     spawnObstacles(counter);
 
@@ -85,33 +85,38 @@ void Stage3Dialog::update() {
 
     //erase the collected powerup
     if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
+        score.increment(10);
         powerups.erase(powerups.begin());
     }
 
     for (auto& o : obstacles) {
-        if(o == nullptr) continue;
+        if(o == nullptr) {
+            continue;
+        }
         o->collisionLogic(*walkingStickman);
     }
 
     //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
-        if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
-        if(walkingStickman->getLives() == 0) {
+        if(walkingStickman->getLives() > 0) {
+            walkingStickman->setLives(walkingStickman->getLives() - 1);
+        } if(walkingStickman->getLives() == 0) {
             dieSong->play();
             walkingStickman->died();
-         }
-        else {
+        } else {
             walkingStickman->putBack();
             restartLevel();
             checkpointPlaced = false;
         }
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
         if(levels.size() >= 1) {
+            score.increment(200); // win 200 points for proceeding to next level
             nextLevel();
-        }
-        else {
+        } else {
             win();
-            if(winSong->state() == QMediaPlayer::StoppedState && playedWin) exit(0);
+            if(winSong->state() == QMediaPlayer::StoppedState && playedWin) {
+                exit(0);
+            }
         }
     }
 }
@@ -167,12 +172,12 @@ void Stage3Dialog::restartLevel() {
 void Stage3Dialog::spawnObstacles(unsigned int counter) {
     // Check if it's time to spawn an obstacle
     if (obstacleLayout.size() == 0 || distanceToSpawn > 0) return;
-    auto &e = obstacleLayout[nextObstacle];
+    auto& e = obstacleLayout[nextObstacle];
 
     // Check for collisions between next obstacle and current obstacles
     bool isOverlapping = false;
     if(nextObstacle < obstacleLayout.size()) {
-        for (auto &o : obstacles) {
+        for (auto& o : obstacles) {
             if(o == nullptr) continue;
             if (Collision::overlaps(*e.first, *o)) {
                 isOverlapping = true;
@@ -211,6 +216,7 @@ void Stage3Dialog::win() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     if(winSong->state() == QMediaPlayer::StoppedState && !playedWin) {
         winSong->play();
+        score.increment(1000);
         playedWin = true;
     }
     walkingStickman->setVelocity(0);
@@ -227,7 +233,7 @@ void Stage3Dialog::releasedInput(QKeyEvent &event) {
 
 void Stage3Dialog::spawnPowerups(unsigned int counter) {
     srand(time(NULL));
-    if(counter%200 == 0) {
+    if(counter % 200 == 0) {
         int randomX = rand() % 800 + 400;
         int randomName = rand() % 5;
         std::unique_ptr<Powerup> powerup;
