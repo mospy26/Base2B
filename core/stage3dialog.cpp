@@ -17,7 +17,6 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
         std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
         this->levels.insert(this->levels.begin(), std::move(initialLevel));
         obstacleLayout = this->levels.front()->getObstacleLayout();
-        qDebug() << this->levels.size();
     }
 }
 
@@ -135,7 +134,6 @@ void Stage3Dialog::update() {
             }
         }
     }
-    qDebug() << levels.size();
 }
 
 void Stage3Dialog::moveBackground() {
@@ -273,7 +271,6 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
                 powerup = std::make_unique<LargePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
         }
-
         QPixmap pix(":/sprites/" + QString(powerup->getName().c_str()) + ".png");
         pix = pix.scaledToHeight(50);
         powerup->setSprite(pix);

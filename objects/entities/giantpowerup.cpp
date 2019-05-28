@@ -10,12 +10,11 @@ void GiantPowerup::collisionLogic(Stickman& stickman) {
     Powerup::collisionLogic(stickman);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(walkingStickman->collidedWithPowerup()) {
-        upgradeStickman(stickman);
+        upgradeStickman(*walkingStickman);
     }
 }
 
-void GiantPowerup::upgradeStickman(Stickman &stickman) {
+void GiantPowerup::upgradeStickman(WalkingStickman &stickman) {
     stickman.setSize("giant");
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
-    walkingStickman->provideAbility(Ability::BreakObstacles);
+    stickman.provideAbility(Ability::BreakObstacles);
 }

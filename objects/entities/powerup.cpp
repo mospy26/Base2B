@@ -6,7 +6,7 @@ Powerup::Powerup(std::string name, Coordinate coordinate, int velocity)
 
 }
 
-void Powerup::collisionLogic(Stickman &player) {
+void Powerup::collisionLogic(Stickman& player) {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&player);
     Collision::CollisonResult col = Collision::moveCast(*walkingStickman, *this, 0, walkingStickman->getJumpVelocity());
 
@@ -20,6 +20,6 @@ void Powerup::updateCoordinate() {
     getCoordinate().setXCoordinate(getCoordinate().getXCoordinate() - getVelocity());
 }
 
-void Powerup::upgradeStickman(Stickman &player) {
+void Powerup::upgradeStickman(WalkingStickman& player) {
 
 }

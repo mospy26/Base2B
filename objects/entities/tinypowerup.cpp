@@ -10,12 +10,11 @@ void TinyPowerup::collisionLogic(Stickman& stickman) {
     Powerup::collisionLogic(stickman);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(walkingStickman->collidedWithPowerup()) {
-        upgradeStickman(stickman);
+        upgradeStickman(*walkingStickman);
     }
 }
 
-void TinyPowerup::upgradeStickman(Stickman &stickman) {
+void TinyPowerup::upgradeStickman(WalkingStickman& stickman) {
     stickman.setSize("tiny");
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
-    walkingStickman->provideAbility(Ability::NoEffect);
+    stickman.provideAbility(Ability::NoEffect);
 }

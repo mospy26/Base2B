@@ -14,10 +14,6 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 
     ac.setXCoordinate(ac.getXCoordinate() + velocity);
 
-//    if(blinker <= 0) {
-//        blinking = false;
-//    }
-
     jumpImpulse = ability == Ability::HigherJumping ? 18 : 15;
     for (auto &other : obstacles) {
         if(other == nullptr) continue;
@@ -71,29 +67,6 @@ void WalkingStickman::putBack() {
     setCoordinate(initialCoordinates);
 }
 
-void WalkingStickman::blink(int time) {
-    if(time%30 > 10) {
-        blinker -= 1;
-        sprite.fill(Qt::transparent);
-    }
-    else {
-        std::string spritePath = ":sprites/sprite";
-        setSprite(spritePath.append(std::to_string((time/5)%2)).append(".png"));
-    }
-}
-
-bool WalkingStickman::getBlinking() const {
-    return blinking;
-}
-
-void WalkingStickman::setBlinker(int blinkerValue) {
-    blinker = blinkerValue;
-}
-
-int WalkingStickman::getBlinker() const {
-    return blinker;
-}
-
 void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
     if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
         movingRight = false;
@@ -135,7 +108,7 @@ int WalkingStickman::getLives() const {
 }
 
 void WalkingStickman::died() {
-    jumpImpulse = 23;
+    jumpImpulse = 22;
     jump();
     velocity = 0;
 }

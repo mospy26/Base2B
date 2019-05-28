@@ -10,11 +10,10 @@ void LifePowerup::collisionLogic(Stickman &stickman) {
     Powerup::collisionLogic(stickman);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(walkingStickman->collidedWithPowerup()) {
-        upgradeStickman(stickman);
+        upgradeStickman(*walkingStickman);
     }
 }
 
-void LifePowerup::upgradeStickman(Stickman &stickman) {
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
-    walkingStickman->setLives(walkingStickman->getLives() + 1);
+void LifePowerup::upgradeStickman(WalkingStickman &stickman) {
+    stickman.setLives(stickman.getLives() + 1);
 }

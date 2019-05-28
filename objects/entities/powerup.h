@@ -12,7 +12,7 @@ public:
     virtual ~Powerup() override = default;
 
     virtual void collisionLogic(Stickman& player) override;
-    virtual void upgradeStickman(Stickman& player);
+    virtual void upgradeStickman(WalkingStickman& player);
     void updateCoordinate() override;
 };
 

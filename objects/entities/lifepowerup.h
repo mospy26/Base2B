@@ -9,7 +9,7 @@ public:
     LifePowerup(Coordinate coordinate, int velocity);
 
     void collisionLogic(Stickman& stickman) override;
-    void upgradeStickman(Stickman& stickman) override;
+    void upgradeStickman(WalkingStickman& stickman) override;
 };
 
 #endif // LIFEPOWERUP_H

@@ -16,25 +16,16 @@ public:
     void update(std::vector<std::unique_ptr<Entity>>& obstacles) override;
 
     void putBack();
-    void blink(int time);
     void setInitialCoordinates(Coordinate& coordinate);
     void setLives(int lives);
     int getLives() const;
     void died();
-
     void setMovingIndicators(bool right, bool left);
-
-    bool getBlinking() const;
-    void setBlinker(int blinker);
-
     void setReachedFlag(bool reached);
     bool isReachedFlag() const;
-
     bool collidedWithPowerup() const;
     void setCollidedWithPowerup(bool collided);
     void provideAbility(enum Ability ability);
-
-    int getBlinker() const;
     int getVelocity() const;
     void setVelocity(int velocity);
     void handleReleasedInput(QKeyEvent& event);
@@ -51,9 +42,6 @@ private:
     bool collidedPowerup;
     bool powerupColliding = false;
     Ability ability = Ability::NoEffect;
-
-    bool blinking = false;
-    int blinker = 0;
 };
 
 #endif // WALKINGSTICKMAN_H

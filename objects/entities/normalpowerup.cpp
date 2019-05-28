@@ -10,12 +10,11 @@ void NormalPowerup::collisionLogic(Stickman &stickman) {
     Powerup::collisionLogic(stickman);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(walkingStickman->collidedWithPowerup()) {
-        upgradeStickman(stickman);
+        upgradeStickman(*walkingStickman);
     }
 }
 
-void NormalPowerup::upgradeStickman(Stickman &stickman) {
+void NormalPowerup::upgradeStickman(WalkingStickman &stickman) {
     stickman.setSize("normal");
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
-    walkingStickman->provideAbility(Ability::NoEffect);
+    stickman.provideAbility(Ability::NoEffect);
 }

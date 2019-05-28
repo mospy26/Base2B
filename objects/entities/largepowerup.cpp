@@ -10,12 +10,11 @@ void LargePowerup::collisionLogic(Stickman &stickman) {
     Powerup::collisionLogic(stickman);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(walkingStickman->collidedWithPowerup()) {
-        upgradeStickman(stickman);
+        upgradeStickman(*walkingStickman);
     }
 }
 
-void LargePowerup::upgradeStickman(Stickman &stickman) {
+void LargePowerup::upgradeStickman(WalkingStickman &stickman) {
     stickman.setSize("large");
-    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
-    walkingStickman->provideAbility(Ability::HigherJumping);
+    stickman.provideAbility(Ability::HigherJumping);
 }
