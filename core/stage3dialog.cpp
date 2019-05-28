@@ -28,13 +28,29 @@ void Stage3Dialog::update() {
     moveBackground();
     spawnPowerups(counter);
 
-    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
-        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>("flag", Coordinate(1600, 150, 450), background.getVelocity());
+    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() == 0 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
+        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>("flag", Coordinate(800, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
         pix = pix.scaledToHeight(220);
         entity->setSprite(pix);
         checkpointPlaced = true;
         obstacles.push_back(std::move(entity));
+    }
+
+    //clear obstacles if all nulls
+    if(obstacles.size() > 0) {
+        bool allNulls = true;
+        std::vector<std::unique_ptr<Entity>>::iterator it = obstacles.begin();
+        while(it != obstacles.end()) {
+            if(*it != nullptr) {
+                allNulls = false;
+                break;
+            }
+            it++;
+        }
+        if(allNulls) {
+            obstacles.clear();
+        }
     }
 
     //stickman dies!
@@ -73,7 +89,7 @@ void Stage3Dialog::update() {
     }
 
     for (auto& o : obstacles) {
-        if(!o) continue;
+        if(o == nullptr) continue;
         o->collisionLogic(*walkingStickman);
     }
 
@@ -104,7 +120,7 @@ void Stage3Dialog::moveBackground() {
     int stickmanFront = stickman->getCoordinate().getXCoordinate() + stickman->width();
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
-    if(stickmanFront >= 400 && stickmanFront <= 409 && walkingStickman->isMovingRight()) {
+    if(stickmanFront >= 400 && walkingStickman->isMovingRight()) {
         background.setVelocity(8);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
@@ -215,23 +231,29 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
         int randomX = rand() % 800 + 800;
         int randomName = rand() % 4;
         std::string name;
+        std::unique_ptr<Powerup> powerup;
         switch(randomName) {
             case 0:
-                name = "small";
+                name = "giant";
+                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 1:
-                name = "normal";
+            name = "giant";
+            powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+//                name = "life";
+//                powerup = std::make_unique<LifePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 2:
-                name = "large";
+                name = "giant";
+                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 3:
                 name = "giant";
+                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
         }
-        QPixmap pix(":/sprites/giant.png");
+        QPixmap pix(":/sprites/" + QString(name.c_str()) + ".png");
         pix = pix.scaledToHeight(50);
-        std::unique_ptr<Powerup> powerup = std::make_unique<GiantPowerup>("giant", Coordinate(randomX, 450, 450), background.getVelocity());
         powerup->setSprite(pix);
         powerups.push_back(std::move(powerup));
     }
@@ -240,8 +262,6 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
 void Stage3Dialog::renderPowerups(Renderer& renderer) {
     for(auto& powerup : powerups) {
         powerup->render(renderer, counter);
-    }
-    for(auto& powerup : powerups) {
         powerup->updateCoordinate();
     }
 }

@@ -9,6 +9,8 @@
 #include "keyreleasedcommand.h"
 #include "time.h"
 #include "giantpowerup.h"
+#include "lifepowerup.h"
+#include <utility>
 #include <QMediaPlayer>
 
 class Stage3Dialog : public Stage2Dialog

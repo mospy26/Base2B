@@ -6,10 +6,9 @@
 class GiantPowerup : public Powerup
 {
 public:
-    GiantPowerup(std::string name, Coordinate coordinate, int velocity);
+    GiantPowerup(Coordinate coordinate, int velocity);
 
     void collisionLogic(Stickman& stickman) override;
-    void updateCoordinate() override;
     void upgradeStickman(Stickman& stickman) override;
 };
 

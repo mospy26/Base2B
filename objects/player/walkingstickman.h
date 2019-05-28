@@ -50,7 +50,7 @@ private:
     bool reachedFlag;
     bool collidedPowerup;
     bool powerupColliding = false;
-    Ability ability;
+    Ability ability = Ability::NoEffect;
 
     bool blinking = false;
     int blinker = 0;

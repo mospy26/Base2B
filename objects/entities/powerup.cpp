@@ -16,7 +16,8 @@ void Powerup::collisionLogic(Stickman &player) {
 }
 
 void Powerup::updateCoordinate() {
-
+    getCoordinate().setYCoordinate(getCoordinate().getYCoordinate() - 1);
+    getCoordinate().setXCoordinate(getCoordinate().getXCoordinate() - getVelocity());
 }
 
 void Powerup::upgradeStickman(Stickman &player) {

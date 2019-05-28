@@ -12,8 +12,8 @@ public:
     virtual ~Powerup() override = default;
 
     virtual void collisionLogic(Stickman& player) override;
-    virtual void updateCoordinate() override;
     virtual void upgradeStickman(Stickman& player);
+    void updateCoordinate() override;
 };
 
 #endif // POWERUP_H

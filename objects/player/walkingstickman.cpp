@@ -19,17 +19,19 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 //    }
 
     for (auto &other : obstacles) {
-        if(!other) continue;
+        if(other == nullptr) continue;
         Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
 
         if (col.overlapped && lives > 0) {
-            if(ability != Ability::BreakObstacles)
+            if(ability != Ability::BreakObstacles) {
                 colliding = true;
+            }
             else if(ability == Ability::BreakObstacles && other->getName() != "flag") {
                 other = nullptr;
             }
-            else if(ability == Ability::BreakObstacles && other->getName() == "flag") {
-                reachedFlag = true;
+            //the only obstacle is a flag
+            else if(ability == Ability::BreakObstacles && other->getName() == "flag" && obstacles.size() == 1) {
+                colliding = true;
             }
         }
     }
