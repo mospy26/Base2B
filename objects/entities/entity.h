@@ -29,6 +29,7 @@ public:
     virtual int getVelocity();
     virtual void setVelocity(int v);
     void setSprite(QPixmap &pm);
+    std::string getName() const;
 
     virtual std::unique_ptr<Entity> clone();
 

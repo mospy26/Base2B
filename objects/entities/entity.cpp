@@ -11,6 +11,10 @@ Entity::Entity(std::string name, Coordinate coordinate, int velocity):
     updateSprite(0);
 }
 
+std::string Entity::getName() const {
+    return name;
+}
+
 std::unique_ptr<Entity> Entity::clone() {
     auto e = std::make_unique<Entity>(name, coordinate, velocity);
     e->setSize(widthOverride, heightOverride);

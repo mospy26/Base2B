@@ -19,10 +19,18 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 //    }
 
     for (auto &other : obstacles) {
+        if(!other) continue;
         Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);
 
         if (col.overlapped && lives > 0) {
-            colliding = true;
+            if(ability != Ability::BreakObstacles)
+                colliding = true;
+            else if(ability == Ability::BreakObstacles && other->getName() != "flag") {
+                other = nullptr;
+            }
+            else if(ability == Ability::BreakObstacles && other->getName() == "flag") {
+                reachedFlag = true;
+            }
         }
     }
 
@@ -148,4 +156,8 @@ void WalkingStickman::setCollidedWithPowerup(bool collided) {
 
 bool WalkingStickman::collidedWithPowerup() const {
     return collidedPowerup;
+}
+
+void WalkingStickman::provideAbility(enum Ability ability) {
+    this->ability = ability;
 }

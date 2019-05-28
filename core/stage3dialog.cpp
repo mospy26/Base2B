@@ -28,21 +28,20 @@ void Stage3Dialog::update() {
     moveBackground();
     spawnPowerups(counter);
 
-    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9) {
-        Entity obstacle_back = *obstacles.back();
-        std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(800, 150, 450), background.getVelocity());
+    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
+        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>("flag", Coordinate(1600, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
         pix = pix.scaledToHeight(220);
         entity->setSprite(pix);
-        std::unique_ptr<Entity> checkpointSprite = std::make_unique<Checkpoint>(std::move(entity));
         checkpointPlaced = true;
-        obstacles.push_back(std::move(checkpointSprite));
+        obstacles.push_back(std::move(entity));
     }
 
     //stickman dies!
     if(walkingStickman->getLives() == 0) {
         background.setVelocity(0);
         for(auto& o: obstacles) {
+            if(o == nullptr) continue;
             o->setVelocity(0);
         }
         if(dieSong->state() == QMediaPlayer::StoppedState) {
@@ -73,7 +72,8 @@ void Stage3Dialog::update() {
         powerups.erase(powerups.begin());
     }
 
-    for (auto &o : obstacles) {
+    for (auto& o : obstacles) {
+        if(!o) continue;
         o->collisionLogic(*walkingStickman);
     }
 
@@ -108,6 +108,7 @@ void Stage3Dialog::moveBackground() {
         background.setVelocity(8);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(8);
         }
         for(auto& powerup : powerups) {
@@ -118,6 +119,7 @@ void Stage3Dialog::moveBackground() {
         walkingStickman->getCoordinate().setXCoordinate(0);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(0);
         }
         for(auto& powerup : powerups) {
@@ -129,6 +131,7 @@ void Stage3Dialog::moveBackground() {
     else if(walkingStickman->getVelocity() == 0) {
         background.setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(0);
         }
         for(auto& powerup : powerups) {
@@ -154,6 +157,7 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
     bool isOverlapping = false;
     if(nextObstacle < obstacleLayout.size()) {
         for (auto &o : obstacles) {
+            if(o == nullptr) continue;
             if (Collision::overlaps(*e.first, *o)) {
                 isOverlapping = true;
                 break;
@@ -212,17 +216,18 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
         int randomName = rand() % 4;
         std::string name;
         switch(randomName) {
-
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-
-
+            case 0:
+                name = "small";
+                break;
+            case 1:
+                name = "normal";
+                break;
+            case 2:
+                name = "large";
+                break;
+            case 3:
+                name = "giant";
+                break;
         }
         QPixmap pix(":/sprites/giant.png");
         pix = pix.scaledToHeight(50);

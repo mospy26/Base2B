@@ -4,10 +4,10 @@
 #include "entitydecorator.h"
 #include "walkingstickman.h"
 
-class Checkpoint : public EntityDecorator
+class Checkpoint : public Entity
 {
 public:
-    Checkpoint(std::unique_ptr<Entity> flag);
+    Checkpoint(std::string name, Coordinate coordinate, int velocity);
 
     void collisionLogic(Stickman& stickman) override;
 };
