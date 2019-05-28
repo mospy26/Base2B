@@ -13,8 +13,9 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     winSong->setVolume(1000);
     if(infiniteMode) {
         std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
-        levels.insert(levels.begin(), std::move(initialLevel));
-        obstacleLayout = levels.front()->getObstacleLayout();
+        this->levels.insert(this->levels.begin(), std::move(initialLevel));
+        obstacleLayout = this->levels.front()->getObstacleLayout();
+        qDebug() << this->levels.size();
     }
 }
 
@@ -81,14 +82,15 @@ void Stage3Dialog::update() {
             checkpointPlaced = false;
         }
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
-        if(levelPointer <= levels.size() - 1) {
+        if(levels.size() > 0) {
             nextLevel();
         }
-        else {
+        else if(!infiniteMode && levels.size() == 0) {
             win();
             if(winSong->state() == QMediaPlayer::StoppedState && playedWin) exit(0);
         }
     }
+    qDebug() << levels.size();
 }
 
 void Stage3Dialog::moveBackground() {
@@ -159,13 +161,11 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
 void Stage3Dialog::nextLevel() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     obstacles.clear();
-    if(infiniteMode && levelPointer == levels.size() - 1) {
-        levelPointer = 0;
+    if(infiniteMode) {
+        levels.push_back(std::make_unique<Level>(std::move(obstacleLayout)));
     }
-    else {
-        levelPointer++;
-    }
-    obstacleLayout = levels[levelPointer]->getObstacleLayout();
+    levels.erase(levels.begin());
+    obstacleLayout = levels.front()->getObstacleLayout();
     walkingStickman->setReachedFlag(false);
     checkpointPlaced = false;
     nextObstacle = 0;

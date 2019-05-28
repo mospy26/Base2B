@@ -27,7 +27,6 @@ private:
     std::vector<std::unique_ptr<Level>> levels;
     std::unique_ptr<QMediaPlayer> winSong;
     bool infiniteMode;
-    int levelPointer = 0;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };
