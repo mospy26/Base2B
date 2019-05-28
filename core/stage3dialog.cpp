@@ -14,11 +14,9 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     winSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     winSong->setMedia(QUrl("qrc:/win.mp3"));
     winSong->setVolume(1000);
-    if(infiniteMode) {
-        std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
-        this->levels.insert(this->levels.begin(), std::move(initialLevel));
-        obstacleLayout = this->levels.front()->getObstacleLayout();
-    }
+    std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
+    this->levels.insert(this->levels.begin(), std::move(initialLevel));
+    obstacleLayout = this->levels.front()->getObstacleLayout();
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
@@ -128,11 +126,11 @@ void Stage3Dialog::update() {
             checkpointPlaced = false;
         }
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
-        if(levels.size() > 0) {
+        if(levels.size() > 1) {
             nextLevel();
             score.increment(200); // win 200 points for proceeding to next level
         }
-        else if(!infiniteMode && levels.size() == 0) {
+        else if(!infiniteMode && levels.size() <= 1) {
             win();
             if(winSong->state() == QMediaPlayer::StoppedState && playedWin) {
                 exit(0);
