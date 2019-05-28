@@ -7,8 +7,11 @@ GiantPowerup::GiantPowerup(std::string name, Coordinate coordinate, int velocity
 }
 
 void GiantPowerup::collisionLogic(Stickman& stickman) {
+    WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&stickman);
     if(stickman.isColliding()) {
-        upgradeStickman(stickman);
+        qDebug() << 2;
+        upgradeStickman(*walkingStickman);
+        walkingStickman->setCollidedWithPowerup(true);
     }
 }
 

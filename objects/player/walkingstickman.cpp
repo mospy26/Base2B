@@ -1,7 +1,7 @@
 #include "walkingstickman.h"
 
 WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity)
-    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity), reachedFlag(false)
+    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity), reachedFlag(false), collidedPowerup(false)
 {
 
 }
@@ -140,4 +140,12 @@ bool WalkingStickman::isReachedFlag() const {
 void WalkingStickman::setMovingIndicators(bool right, bool left) {
     movingLeft = left;
     movingRight = right;
+}
+
+void WalkingStickman::setCollidedWithPowerup(bool collided) {
+    collidedPowerup = collided;
+}
+
+bool WalkingStickman::collidedWithPowerup() const {
+    return collidedPowerup;
 }

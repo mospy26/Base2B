@@ -23,6 +23,7 @@ void Stage3Dialog::render(Renderer &renderer) {
 void Stage3Dialog::update() {
 
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+    walkingStickman->setCollidedWithPowerup(false);
 
     moveBackground();
     spawnPowerups(counter);
@@ -63,12 +64,16 @@ void Stage3Dialog::update() {
         c->collisionLogic(*walkingStickman);
     }
 
+    for (auto& powerup : powerups) {
+        powerup->collisionLogic(*walkingStickman);
+    }
+
     for (auto &o : obstacles) {
         o->collisionLogic(*walkingStickman);
     }
 
-    for (auto& powerup : powerups) {
-        powerup->collisionLogic(*walkingStickman);
+    if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
+        powerups.erase(powerups.begin());
     }
 
     //collided
@@ -79,6 +84,7 @@ void Stage3Dialog::update() {
             walkingStickman->died();
          }
         else {
+            qDebug() << "1";
             walkingStickman->putBack();
             restartLevel();
             checkpointPlaced = false;
@@ -229,10 +235,8 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
 void Stage3Dialog::renderPowerups(Renderer& renderer) {
     for(auto& powerup : powerups) {
         powerup->render(renderer, counter);
-        qDebug() << "b" <<  powerup->getCoordinate().getXCoordinate();
     }
     for(auto& powerup : powerups) {
         powerup->updateCoordinate();
-        qDebug() << powerup->getCoordinate().getXCoordinate();
     }
 }

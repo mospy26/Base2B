@@ -26,6 +26,9 @@ public:
     void setReachedFlag(bool reached);
     bool isReachedFlag() const;
 
+    bool collidedWithPowerup() const;
+    void setCollidedWithPowerup(bool collided);
+
     int getBlinker() const;
     int getVelocity() const;
     void setVelocity(int velocity);
@@ -40,6 +43,7 @@ private:
     int lives;
     int velocity = 0;
     bool reachedFlag;
+    bool collidedPowerup;
 
     bool blinking = false;
     int blinker = 0;

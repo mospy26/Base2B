@@ -3,6 +3,7 @@
 
 #include "coordinate.h"
 #include "entity.h"
+#include "walkingstickman.h"
 
 class Powerup : public Entity
 {
