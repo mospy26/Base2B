@@ -42,22 +42,6 @@ void Stage3Dialog::update() {
         obstacles.push_back(std::move(entity));
     }
 
-    //clear obstacles if all nulls
-    if(obstacles.size() > 0) {
-        bool allNulls = true;
-        std::vector<std::unique_ptr<Entity>>::iterator it = obstacles.begin();
-        while(it != obstacles.end()) {
-            if(*it != nullptr) {
-                allNulls = false;
-                break;
-            }
-            it++;
-        }
-        if(allNulls) {
-            obstacles.clear();
-        }
-    }
-
     //stickman dies!
     if(walkingStickman->getLives() == 0) {
         background.setVelocity(0);
@@ -110,6 +94,9 @@ void Stage3Dialog::update() {
         }
         o->collisionLogic(*walkingStickman);
     }
+
+    //add 100 points for every destroyed obstacle by giant
+    obstacles.erase(std::remove_if(obstacles.begin(), obstacles.end(), [&](const std::unique_ptr<Entity>& o) { if(o == nullptr) score.increment(100); return o == nullptr; }), obstacles.end());
 
     //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {

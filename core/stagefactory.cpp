@@ -49,10 +49,9 @@ std::unique_ptr<GameStage> StageFactory::createStage() {
         auto factory = std::make_unique<EntityFactory>();
         factory->setVelocity(0);
 
-        auto stage = std::make_unique<Stage3Dialog>(*config.game, std::move(player), std::move(factory), std::move(*config.obstacles), 3, std::move(*config.levels), config.infiniteMode);
+        auto stage = std::make_unique<Stage3Dialog>(*config.game, std::move(player), std::move(factory), std::move(*config.obstacles), config.lives, std::move(*config.levels), config.infiniteMode);
         genericDialogInitializer(*stage);
         return std::make_unique<SwapRendererStage>(std::move(stage));
-        //return std::move(stage);
     } else {
         // Stage 1
         auto player = std::make_unique<Stickman>();
