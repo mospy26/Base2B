@@ -1,8 +1,9 @@
 #include "stage3dialog.h"
 
 Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode)
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives")
 {
+    lifeScore.increment(lives);
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
     keyPress = std::make_unique<KeyPressCommand>(*walkingStickman);
@@ -23,6 +24,7 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
     renderPowerups(renderer);
+    lifeScore.render(renderer, 60);
 }
 
 void Stage3Dialog::update() {
@@ -93,6 +95,7 @@ void Stage3Dialog::update() {
         // 50 for a life powerup, 30 for a giant powerup and 10 for other powerups
         if((*powerups.begin())->getName() == "life") {
             score.increment(50);
+            lifeScore.increment();
         }
         else if((*powerups.begin())->getName() == "giant") {
             score.increment(30);
@@ -116,9 +119,11 @@ void Stage3Dialog::update() {
             walkingStickman->setLives(walkingStickman->getLives() - 1);
         } if(walkingStickman->getLives() == 0) {
             dieSong->play();
+            lifeScore.decrement();
             walkingStickman->died();
         } else {
             walkingStickman->putBack();
+            lifeScore.decrement();
             restartLevel();
             checkpointPlaced = false;
         }

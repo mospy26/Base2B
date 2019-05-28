@@ -71,7 +71,8 @@ SOURCES += \
     objects/entities/lifepowerup.cpp \
     objects/entities/normalpowerup.cpp \
     objects/entities/tinypowerup.cpp \
-    objects/entities/largepowerup.cpp
+    objects/entities/largepowerup.cpp \
+    displayscore.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -113,7 +114,8 @@ HEADERS += \
     objects/entities/lifepowerup.h \
     objects/entities/normalpowerup.h \
     objects/entities/tinypowerup.h \
-    objects/entities/largepowerup.h
+    objects/entities/largepowerup.h \
+    displayscore.h
 
 FORMS += \
         dialog.ui

@@ -13,8 +13,12 @@ void Score::increment(unsigned int value) {
     currScore += value;
 }
 
+void Score::decrement(unsigned int value) {
+    currScore -= value;
+}
+
 // Render score from left to right. Requires FILO reading of integer
-void Score::render(Renderer &renderer) {
+void Score::render(Renderer &renderer, unsigned int yPosition) {
     std::stack<int> number;
     unsigned int score = currScore;
     if(score == 0) {
@@ -28,7 +32,7 @@ void Score::render(Renderer &renderer) {
 
     int length = number.size();
     for (int i = 0; i < length; i++) {
-        renderer.draw(700+i*10, 20, digits[number.top()]);
+        renderer.draw(700+i*10, yPosition, digits[number.top()]);
         number.pop();
     }
 }

@@ -13,6 +13,7 @@
 #include "normalpowerup.h"
 #include "tinypowerup.h"
 #include "largepowerup.h"
+#include "displayscore.h"
 #include <utility>
 #include <QMediaPlayer>
 
@@ -43,6 +44,7 @@ private:
     std::unique_ptr<Command> keyPress;
     std::unique_ptr<Command> keyReleased;
     std::vector<std::unique_ptr<Powerup>> powerups;
+    DisplayScore lifeScore;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };

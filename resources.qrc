@@ -36,5 +36,6 @@
         <file>sprites/normal.png</file>
         <file>sprites/tiny.png</file>
         <file>sprites/large.png</file>
+        <file>sprites/lives.png</file>
     </qresource>
 </RCC>
