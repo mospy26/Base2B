@@ -18,6 +18,7 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
 //        blinking = false;
 //    }
 
+    jumpImpulse = ability == Ability::HigherJumping ? 20 : 15;
     for (auto &other : obstacles) {
         if(other == nullptr) continue;
         Collision::CollisonResult col = Collision::moveCast(*this, *other, 0, jumpVelocity);

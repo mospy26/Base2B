@@ -10,6 +10,9 @@
 #include "time.h"
 #include "giantpowerup.h"
 #include "lifepowerup.h"
+#include "normalpowerup.h"
+#include "tinypowerup.h"
+#include "largepowerup.h"
 #include <utility>
 #include <QMediaPlayer>
 

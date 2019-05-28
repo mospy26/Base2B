@@ -227,32 +227,29 @@ void Stage3Dialog::releasedInput(QKeyEvent &event) {
 
 void Stage3Dialog::spawnPowerups(unsigned int counter) {
     srand(time(NULL));
-    if(counter%300 == 0) {
-        int randomX = rand() % 800 + 800;
-        int randomName = rand() % 4;
-        std::string name;
+    if(counter%200 == 0) {
+        int randomX = rand() % 800 + 400;
+        int randomName = rand() % 5;
         std::unique_ptr<Powerup> powerup;
         switch(randomName) {
             case 0:
-                name = "giant";
                 powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 1:
-            name = "giant";
-            powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
-//                name = "life";
-//                powerup = std::make_unique<LifePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                powerup = std::make_unique<NormalPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 2:
-                name = "giant";
-                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                powerup = std::make_unique<TinyPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 3:
-                name = "giant";
-                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                powerup = std::make_unique<LifePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+            case 4:
+                powerup = std::make_unique<LargePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
         }
-        QPixmap pix(":/sprites/" + QString(name.c_str()) + ".png");
+
+        QPixmap pix(":/sprites/" + QString(powerup->getName().c_str()) + ".png");
         pix = pix.scaledToHeight(50);
         powerup->setSprite(pix);
         powerups.push_back(std::move(powerup));

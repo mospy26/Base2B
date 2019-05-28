@@ -33,5 +33,8 @@
         <file>win.mp3</file>
         <file>sprites/giant.png</file>
         <file>sprites/life.png</file>
+        <file>sprites/normal.png</file>
+        <file>sprites/tiny.png</file>
+        <file>sprites/large.png</file>
     </qresource>
 </RCC>
