@@ -67,7 +67,7 @@ SOURCES += \
     core/keypresscommand.cpp \
     core/keyreleasedcommand.cpp \
     objects/entities/giantpowerup.cpp \
-    objects/entities/powerup.cpp
+    objects/entities/powerup.cpp \
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -105,7 +105,7 @@ HEADERS += \
     core/keypresscommand.h \
     core/keyreleasedcommand.h \
     objects/entities/powerup.h \
-    objects/entities/giantpowerup.h
+    objects/entities/giantpowerup.h \
 
 FORMS += \
         dialog.ui

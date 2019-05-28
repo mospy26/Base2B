@@ -30,6 +30,7 @@ public:
     virtual void update(std::vector<std::unique_ptr<Entity>> &obstacles);
 
     bool isColliding();
+    void setColliding(bool colliding);
     int width();
     int height();
 

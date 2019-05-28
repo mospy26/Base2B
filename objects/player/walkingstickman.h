@@ -44,6 +44,7 @@ private:
     int velocity = 0;
     bool reachedFlag;
     bool collidedPowerup;
+    bool powerupColliding = false;
 
     bool blinking = false;
     int blinker = 0;

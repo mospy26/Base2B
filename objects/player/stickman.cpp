@@ -56,3 +56,7 @@ int Stickman::height() {
 Coordinate &Stickman::getCoordinate() {
     return coordinate;
 }
+
+void Stickman::setColliding(bool colliding) {
+    this->colliding = colliding;
+}

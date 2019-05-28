@@ -68,12 +68,13 @@ void Stage3Dialog::update() {
         powerup->collisionLogic(*walkingStickman);
     }
 
-    for (auto &o : obstacles) {
-        o->collisionLogic(*walkingStickman);
-    }
-
+    //erase the collected powerup
     if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
         powerups.erase(powerups.begin());
+    }
+
+    for (auto &o : obstacles) {
+        o->collisionLogic(*walkingStickman);
     }
 
     //collided
@@ -84,7 +85,6 @@ void Stage3Dialog::update() {
             walkingStickman->died();
          }
         else {
-            qDebug() << "1";
             walkingStickman->putBack();
             restartLevel();
             checkpointPlaced = false;

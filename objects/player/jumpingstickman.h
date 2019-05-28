@@ -20,6 +20,8 @@ public:
     void jump();
     bool canJump();
 
+    int getJumpVelocity();
+
     virtual void handleInput(QKeyEvent &event);
     virtual void update(std::vector<std::unique_ptr<Entity>> &obstacles);
 
