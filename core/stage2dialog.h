@@ -16,14 +16,14 @@ public:
 
     virtual void update();
     virtual void render(Renderer &renderer);
+    virtual void input(QKeyEvent& event) override;
+    virtual void releasedInput(QKeyEvent& event) override;
 
 protected:
     virtual void spawnObstacles(unsigned int counter);
-
     std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout;
     int distanceToSpawn;
     int nextObstacle;
-
 };
 
 #endif // STAGE2DIALOG_H

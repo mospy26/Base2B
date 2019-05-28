@@ -11,7 +11,8 @@ class Score {
 public:
     Score();
 
-    virtual void increment(int value = 1);
+
+    void increment(unsigned int value = 1);
     void render(Renderer &renderer);
 
 private:

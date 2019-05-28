@@ -26,6 +26,10 @@ void JumpingStickman::handleInput(QKeyEvent &event) {
     }
 }
 
+int JumpingStickman::getJumpVelocity() {
+    return jumpVelocity;
+}
+
 void JumpingStickman::update(std::vector<std::unique_ptr<Entity>> &obstacles) {
     Coordinate &ac = getCoordinate();
     int newY = ac.getYCoordinate() + jumpVelocity;

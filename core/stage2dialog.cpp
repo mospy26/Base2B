@@ -56,3 +56,11 @@ void Stage2Dialog::update() {
 void Stage2Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
 }
+
+void Stage2Dialog::input(QKeyEvent &event) {
+    Dialog::input(event);
+}
+
+void Stage2Dialog::releasedInput(QKeyEvent &event) {
+    Dialog::releasedInput(event);
+}

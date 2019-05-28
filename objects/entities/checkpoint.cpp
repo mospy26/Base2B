@@ -1,7 +1,7 @@
 #include "checkpoint.h"
 
-Checkpoint::Checkpoint(std::unique_ptr<Entity> flag)
-    : EntityDecorator(std::move(flag))
+Checkpoint::Checkpoint(std::string name, Coordinate coordinate, int velocity)
+    : Entity(name, coordinate, velocity)
 {
 
 }
@@ -11,5 +11,5 @@ void Checkpoint::collisionLogic(Stickman &stickman) {
     if(walking->isColliding()) {
         walking->setReachedFlag(true);
     }
-    EntityDecorator::collisionLogic(stickman);
+    Entity::collisionLogic(stickman);
 }

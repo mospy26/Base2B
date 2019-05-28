@@ -5,6 +5,8 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 {
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
+    keyPress = std::make_unique<KeyPressCommand>(*walkingStickman);
+    keyReleased = std::make_unique<KeyReleasedCommand>(*walkingStickman);
     walkingStickman->setInitialCoordinates(this->stickman->getCoordinate());
     dieSong = std::make_unique<QMediaPlayer>(nullptr, QMediaPlayer::LowLatency);
     dieSong->setMedia(QUrl("qrc:/die.mp3"));
@@ -21,29 +23,47 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
+    renderPowerups(renderer);
 }
 
 void Stage3Dialog::update() {
 
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
+    walkingStickman->setCollidedWithPowerup(false);
 
     moveBackground();
+    spawnPowerups(counter);
 
-    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() >= 1 && obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9) {
-        Entity obstacle_back = *obstacles.back();
-        std::unique_ptr<Entity> entity = std::make_unique<Entity>("flag", Coordinate(800, 150, 450), background.getVelocity());
+    if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() == 0 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
+        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>("flag", Coordinate(800, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
         pix = pix.scaledToHeight(220);
         entity->setSprite(pix);
-        std::unique_ptr<Entity> checkpointSprite = std::make_unique<Checkpoint>(std::move(entity));
         checkpointPlaced = true;
-        obstacles.push_back(std::move(checkpointSprite));
+        obstacles.push_back(std::move(entity));
+    }
+
+    //clear obstacles if all nulls
+    if(obstacles.size() > 0) {
+        bool allNulls = true;
+        std::vector<std::unique_ptr<Entity>>::iterator it = obstacles.begin();
+        while(it != obstacles.end()) {
+            if(*it != nullptr) {
+                allNulls = false;
+                break;
+            }
+            it++;
+        }
+        if(allNulls) {
+            obstacles.clear();
+        }
     }
 
     //stickman dies!
     if(walkingStickman->getLives() == 0) {
         background.setVelocity(0);
         for(auto& o: obstacles) {
+            if(o == nullptr) continue;
             o->setVelocity(0);
         }
         if(dieSong->state() == QMediaPlayer::StoppedState) {
@@ -57,7 +77,6 @@ void Stage3Dialog::update() {
         // Reduce distance to next obstacle
         distanceToSpawn -= background.getVelocity();
         background.update();
-        score.increment();
     }
     spawnObstacles(counter);
 
@@ -65,18 +84,41 @@ void Stage3Dialog::update() {
         c->collisionLogic(*walkingStickman);
     }
 
-    for (auto &o : obstacles) {
+    for (auto& powerup : powerups) {
+        powerup->collisionLogic(*walkingStickman);
+    }
+
+    //erase the collected powerup
+    if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
+        //deal with the score before deleting it
+        // 50 for a life powerup, 30 for a giant powerup and 10 for other powerups
+        if((*powerups.begin())->getName() == "life") {
+            score.increment(50);
+        }
+        else if((*powerups.begin())->getName() == "giant") {
+            score.increment(30);
+        }
+        else {
+            score.increment(10);
+        }
+        powerups.erase(powerups.begin());
+    }
+
+    for (auto& o : obstacles) {
+        if(o == nullptr) {
+            continue;
+        }
         o->collisionLogic(*walkingStickman);
     }
 
     //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
-        if(walkingStickman->getLives() > 0) walkingStickman->setLives(walkingStickman->getLives() - 1);
-        if(walkingStickman->getLives() == 0) {
+        if(walkingStickman->getLives() > 0) {
+            walkingStickman->setLives(walkingStickman->getLives() - 1);
+        } if(walkingStickman->getLives() == 0) {
             dieSong->play();
             walkingStickman->died();
-         }
-        else {
+        } else {
             walkingStickman->putBack();
             restartLevel();
             checkpointPlaced = false;
@@ -84,10 +126,13 @@ void Stage3Dialog::update() {
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
         if(levels.size() > 0) {
             nextLevel();
+            score.increment(200); // win 200 points for proceeding to next level
         }
         else if(!infiniteMode && levels.size() == 0) {
             win();
-            if(winSong->state() == QMediaPlayer::StoppedState && playedWin) exit(0);
+            if(winSong->state() == QMediaPlayer::StoppedState && playedWin) {
+                exit(0);
+            }
         }
     }
     qDebug() << levels.size();
@@ -97,18 +142,26 @@ void Stage3Dialog::moveBackground() {
     int stickmanFront = stickman->getCoordinate().getXCoordinate() + stickman->width();
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
 
-    if(stickmanFront >= 400 && stickmanFront <= 409 && walkingStickman->isMovingRight()) {
+    if(stickmanFront >= 400 && walkingStickman->isMovingRight()) {
         background.setVelocity(8);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(8);
+        }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(8);
         }
     }
     else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
         walkingStickman->getCoordinate().setXCoordinate(0);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(0);
+        }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(0);
         }
 
         //do stickman : can go backwards instead of stopping it - extension
@@ -116,7 +169,11 @@ void Stage3Dialog::moveBackground() {
     else if(walkingStickman->getVelocity() == 0) {
         background.setVelocity(0);
         for(auto& obs : obstacles) {
+            if(obs == nullptr) continue;
             obs->setVelocity(0);
+        }
+        for(auto& powerup : powerups) {
+            powerup->setVelocity(0);
         }
     }
 }
@@ -126,17 +183,19 @@ void Stage3Dialog::restartLevel() {
     obstacles.clear();
     nextObstacle = 0;
     checkpointPlaced = false;
+    powerups.clear();
 }
 
 void Stage3Dialog::spawnObstacles(unsigned int counter) {
     // Check if it's time to spawn an obstacle
     if (obstacleLayout.size() == 0 || distanceToSpawn > 0) return;
-    auto &e = obstacleLayout[nextObstacle];
+    auto& e = obstacleLayout[nextObstacle];
 
     // Check for collisions between next obstacle and current obstacles
     bool isOverlapping = false;
     if(nextObstacle < obstacleLayout.size()) {
-        for (auto &o : obstacles) {
+        for (auto& o : obstacles) {
+            if(o == nullptr) continue;
             if (Collision::overlaps(*e.first, *o)) {
                 isOverlapping = true;
                 break;
@@ -169,14 +228,62 @@ void Stage3Dialog::nextLevel() {
     walkingStickman->setReachedFlag(false);
     checkpointPlaced = false;
     nextObstacle = 0;
+    powerups.clear();
 }
 
 void Stage3Dialog::win() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     if(winSong->state() == QMediaPlayer::StoppedState && !playedWin) {
         winSong->play();
+        score.increment(1000);
         playedWin = true;
     }
     walkingStickman->setVelocity(0);
     walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
+}
+
+void Stage3Dialog::input(QKeyEvent &event) {
+    keyPress->execute(&event);
+}
+
+void Stage3Dialog::releasedInput(QKeyEvent &event) {
+    keyReleased->execute(&event);
+}
+
+void Stage3Dialog::spawnPowerups(unsigned int counter) {
+    srand(time(NULL));
+    if(counter % 200 == 0) {
+        int randomX = rand() % 800 + 400;
+        int randomName = rand() % 5;
+        std::unique_ptr<Powerup> powerup;
+        switch(randomName) {
+            case 0:
+                powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+            case 1:
+                powerup = std::make_unique<NormalPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+            case 2:
+                powerup = std::make_unique<TinyPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+            case 3:
+                powerup = std::make_unique<LifePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+            case 4:
+                powerup = std::make_unique<LargePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
+                break;
+        }
+
+        QPixmap pix(":/sprites/" + QString(powerup->getName().c_str()) + ".png");
+        pix = pix.scaledToHeight(50);
+        powerup->setSprite(pix);
+        powerups.push_back(std::move(powerup));
+    }
+}
+
+void Stage3Dialog::renderPowerups(Renderer& renderer) {
+    for(auto& powerup : powerups) {
+        powerup->render(renderer, counter);
+        powerup->updateCoordinate();
+    }
 }

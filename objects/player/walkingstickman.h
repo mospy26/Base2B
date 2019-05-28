@@ -4,6 +4,10 @@
 #include "jumpingstickman.h"
 #include "collision.h"
 
+enum Ability {
+    BreakObstacles, HigherJumping, NoEffect
+};
+
 class WalkingStickman : public JumpingStickman {
 public:
     WalkingStickman(int floor, int jumpImpulse = 15, int maxJumpCount = 2, int gravity = -1);
@@ -18,11 +22,17 @@ public:
     int getLives() const;
     void died();
 
+    void setMovingIndicators(bool right, bool left);
+
     bool getBlinking() const;
     void setBlinker(int blinker);
 
     void setReachedFlag(bool reached);
     bool isReachedFlag() const;
+
+    bool collidedWithPowerup() const;
+    void setCollidedWithPowerup(bool collided);
+    void provideAbility(enum Ability ability);
 
     int getBlinker() const;
     int getVelocity() const;
@@ -38,7 +48,9 @@ private:
     int lives;
     int velocity = 0;
     bool reachedFlag;
-
+    bool collidedPowerup;
+    bool powerupColliding = false;
+    Ability ability = Ability::NoEffect;
 
     bool blinking = false;
     int blinker = 0;

@@ -11,6 +11,10 @@ Entity::Entity(std::string name, Coordinate coordinate, int velocity):
     updateSprite(0);
 }
 
+std::string Entity::getName() const {
+    return name;
+}
+
 std::unique_ptr<Entity> Entity::clone() {
     auto e = std::make_unique<Entity>(name, coordinate, velocity);
     e->setSize(widthOverride, heightOverride);
@@ -51,12 +55,14 @@ void Entity::updateCoordinate() {
 }
 
 void Entity::updateSprite(unsigned int time) {
-    if (name == "cactus" || name == "cloud" || name == "flag") {
+    if(name == "bird") {
+        std::string spritePath = ":sprites/" + name + std::to_string((time/10)%2).append(".png");
+        QPixmap sprite(QString::fromStdString(spritePath));
+        setSprite(sprite);
+    }
+    else {
         return;
     }
-    std::string spritePath = ":sprites/" + name + std::to_string((time/10)%2).append(".png");
-    QPixmap sprite(QString::fromStdString(spritePath));
-    setSprite(sprite);
 }
 
 QPixmap &Entity::getSprite() {

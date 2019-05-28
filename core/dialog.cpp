@@ -102,6 +102,7 @@ void Dialog::renderClouds(Renderer &renderer, unsigned int counter) {
 void Dialog::renderObstacles(Renderer &renderer, unsigned int counter) {
     bool deleteObstacle = false;
     for (auto &o: obstacles) {
+        if(o == nullptr) continue;
         o->render(renderer, counter);
         if (o->getCoordinate().getQtRenderingXCoordinate() + o->width() < 0) {
             deleteObstacle = true;

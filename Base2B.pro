@@ -63,7 +63,15 @@ SOURCES += \
     core/stage3dialog.cpp \
     objects/player/walkingstickman.cpp \
     objects/entities/checkpoint.cpp \
-    core/level.cpp
+    core/level.cpp \
+    core/keypresscommand.cpp \
+    core/keyreleasedcommand.cpp \
+    objects/entities/giantpowerup.cpp \
+    objects/entities/powerup.cpp \
+    objects/entities/lifepowerup.cpp \
+    objects/entities/normalpowerup.cpp \
+    objects/entities/tinypowerup.cpp \
+    objects/entities/largepowerup.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -96,7 +104,16 @@ HEADERS += \
     core/stage3dialog.h \
     objects/player/walkingstickman.h \
     objects/entities/checkpoint.h \
-    core/level.h
+    core/level.h \
+    core/command.h \
+    core/keypresscommand.h \
+    core/keyreleasedcommand.h \
+    objects/entities/powerup.h \
+    objects/entities/giantpowerup.h \
+    objects/entities/lifepowerup.h \
+    objects/entities/normalpowerup.h \
+    objects/entities/tinypowerup.h \
+    objects/entities/largepowerup.h
 
 FORMS += \
         dialog.ui
