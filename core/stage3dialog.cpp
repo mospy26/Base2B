@@ -85,7 +85,17 @@ void Stage3Dialog::update() {
 
     //erase the collected powerup
     if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
-        score.increment(10);
+        //deal with the score before deleting it
+        // 50 for a life powerup, 30 for a giant powerup and 10 for other powerups
+        if((*powerups.begin())->getName() == "life") {
+            score.increment(50);
+        }
+        else if((*powerups.begin())->getName() == "giant") {
+            score.increment(30);
+        }
+        else {
+            score.increment(10);
+        }
         powerups.erase(powerups.begin());
     }
 
