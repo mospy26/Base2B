@@ -1,0 +1,47 @@
+======= CONFIG FILE INSTRUCTIONS FOR STAGE 2 =======
+To enable stage 3, the setting "stage: 3" should be in the config file. Otherwise, stage 2 will run if the number is 2, otherwise stage 1 if no stage is specified.
+To enable the testing interface, the settings "stage: 3" and "testMode: on" should be in the config file.
+To add obstacles to the stage 3 obstacle layout, the setting in the config file should look like this (without quotes):
+
+"obstacles: OBSTACLE|OBSTACLE|OBSTACLE|..." -- each obstacle is separated by a |
+
+The format for an OBSTACLE looks like this (without quotes):
+"WIDTH,HEIGHT,Y_POSITION,SPACING_UNTIL_NEXT_OBSTACLE,COLOUR_RED,COLOUR_BLUE,COLOUR_GREEN,FLY_RATE"
+
+Additional obstacles in order to make at least 2 levels is specified in the config as follows:
+"moreObstacles: OBSTACLE|OBSTACLE|OBSTACLE->OBSTACLE|OBSTACLE->....."
+
+The OBSTACLE has the same format as specified above. -> is a delimiter for different set of obstacles.
+
+======= Behavioural Design Pattern Used =======
+Command Pattern
+-KeyPressCommand: In order to run and execute the key press events.
+-KeyReleasedCommand: In order to run and execute the key released events.
+
+======= Coding Style =======
+See README_STAGE1
+
+======= Extensions =======
+== Life power up ==
+An additional powerup, life powerup in the shape of a green mushroom (like in mario) that provides user with an extra life if grabbed.
+
+== Powerups spawn randomly ==
+Powerups spawn randomly on the screen in a level
+
+== Dying animation and winning animation ==
+Stickman falls off the screen if died, and stickman makes a slow walk to the right end of the screen if the stickman wins the game.
+
+== Infinite Level mode ==
+With the configurable infinite mode in the config file having format :- "infiniteMode: yes/no", the game can have infinite levels (unless the stickman dies)
+
+== Powerups fall from the sky ==
+Instead of having the powerups stay on the ground, the powerups fall randomly from the sky.
+
+== Checkpoint flag ==
+A checkpoint flag is placed at the end of every level
+
+== Life meter ==
+There is a life score indicator on the screen indicating the amount of lives. DisplayScore class was extended from Score class in order to do so.
+
+== Die song and Win song ==
+There is a sound effect for dying and winning the mario game.

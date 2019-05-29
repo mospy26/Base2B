@@ -140,7 +140,8 @@ HEADERS += \
 FORMS += \
         dialog.ui
 
-DISTFILES += config.txt
+DISTFILES += config.txt \
+    README_STAGE3
 
 RESOURCES += \
     resources.qrc
