@@ -9,6 +9,7 @@ BreakObstacleTest::BreakObstacleTest()
     stickman->setCoordinate(Coordinate(50, 50, 450));
     stickman->setSize("giant");
     stickman->provideAbility(Ability::BreakObstacles);
+    stickman->setLives(3);
 
     auto bird = std::make_unique<FlyingEntity>(std::make_unique<Bird>(Coordinate(300, 50, 450), 0), 0);
     obstacles.push_back(std::move(bird));

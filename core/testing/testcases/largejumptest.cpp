@@ -8,6 +8,7 @@ LargeJumpTest::LargeJumpTest()
     stickman->setCoordinate(Coordinate(50, 50, 450));
     stickman->setSize("normal");
     stickman->provideAbility(Ability::HigherJumping);
+    stickman->setLives(3);
 
     obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 2)));
 }
