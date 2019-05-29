@@ -96,7 +96,12 @@ void Stage3Dialog::update() {
     }
 
     //add 100 points for every destroyed obstacle by giant
-    obstacles.erase(std::remove_if(obstacles.begin(), obstacles.end(), [&](const std::unique_ptr<Entity>& o) { if(o == nullptr) score.increment(100); return o == nullptr; }), obstacles.end());
+    obstacles.erase(std::remove_if(obstacles.begin(), obstacles.end(), [&](const std::unique_ptr<Entity>& o) {
+        if(o == nullptr) {
+                score.increment(150); // 150 points for destroying obstacles
+        }
+        return o == nullptr;
+    }), obstacles.end());
 
     //collided
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
@@ -115,7 +120,7 @@ void Stage3Dialog::update() {
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
         if(levels.size() > 1) {
             nextLevel();
-            score.increment(200); // win 200 points for proceeding to next level
+            score.increment(500); // win 500 points for proceeding to next level
         }
         else if(!infiniteMode && levels.size() <= 1) {
             win();
@@ -223,7 +228,7 @@ void Stage3Dialog::win() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     if(winSong->state() == QMediaPlayer::StoppedState && !playedWin) {
         winSong->play();
-        score.increment(1000);
+        score.increment(2000); // 2000 points if won the game
         playedWin = true;
     }
     walkingStickman->setVelocity(0);
