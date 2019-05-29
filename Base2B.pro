@@ -73,7 +73,8 @@ SOURCES += \
     objects/entities/tinypowerup.cpp \
     objects/entities/largepowerup.cpp \
     displayscore.cpp \
-    core/testing/testcases/breakobstacletest.cpp
+    core/testing/testcases/breakobstacletest.cpp \
+    core/testing/testcases/largejumptest.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -117,7 +118,8 @@ HEADERS += \
     objects/entities/tinypowerup.h \
     objects/entities/largepowerup.h \
     displayscore.h \
-    core/testing/testcases/breakobstacletest.h
+    core/testing/testcases/breakobstacletest.h \
+    core/testing/testcases/largejumptest.h
 
 FORMS += \
         dialog.ui
