@@ -107,7 +107,9 @@ void Stage3Dialog::update() {
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) {
             walkingStickman->setLives(walkingStickman->getLives() - 1);
+            score.decrement(300); // lose 300 points when losing a life
         } if(walkingStickman->getLives() == 0) {
+            powerups.clear();
             dieSong->play();
             lifeScore.decrement();
             walkingStickman->died();
@@ -123,6 +125,7 @@ void Stage3Dialog::update() {
             score.increment(500); // win 500 points for proceeding to next level
         }
         else if(!infiniteMode && levels.size() <= 1) {
+            powerups.clear();
             win();
             if(winSong->state() == QMediaPlayer::StoppedState && playedWin) {
                 exit(0);

@@ -2,6 +2,7 @@
 #include "collisiontest.h"
 #include "jumptest.h"
 #include "flyingobstacletest.h"
+#include "breakobstacletest.h"
 #include "swaprendererstage.h"
 #include "testingdialog.h"
 #include "stage2dialog.h"
@@ -40,18 +41,26 @@ std::unique_ptr<GameStage> StageFactory::createStage() {
             return std::make_unique<SwapRendererStage>(std::move(stage));
         }
     } else if(config.stage == 3) {
-        auto player = std::make_unique<WalkingStickman>(config.coord.getYCoordinate());
-        player->setSize(config.size);
-        player->setCoordinate(config.coord);
-        player->setSprite(":sprites/sprite0.png");
-        player->setLives(config.lives);
+        if(!config.testMode) {
+            auto player = std::make_unique<WalkingStickman>(config.coord.getYCoordinate());
+            player->setSize("normal");
+            player->setCoordinate(config.coord);
+            player->setSprite(":sprites/sprite0.png");
+            player->setLives(config.lives);
 
-        auto factory = std::make_unique<EntityFactory>();
-        factory->setVelocity(0);
+            auto factory = std::make_unique<EntityFactory>();
+            factory->setVelocity(0);
 
-        auto stage = std::make_unique<Stage3Dialog>(*config.game, std::move(player), std::move(factory), std::move(*config.obstacles), config.lives, std::move(*config.levels), config.infiniteMode);
-        genericDialogInitializer(*stage);
-        return std::make_unique<SwapRendererStage>(std::move(stage));
+            auto stage = std::make_unique<Stage3Dialog>(*config.game, std::move(player), std::move(factory), std::move(*config.obstacles), config.lives, std::move(*config.levels), config.infiniteMode);
+            genericDialogInitializer(*stage);
+            return std::make_unique<SwapRendererStage>(std::move(stage));
+        } else {
+            std::vector<std::unique_ptr<TestRunner>> tests;
+            tests.push_back(std::make_unique<BreakObstacleTest>());
+
+            std::unique_ptr<GameStage> tester = std::make_unique<TestingDialog>(std::move(tests));
+            return std::make_unique<SwapRendererStage>(std::move(tester));
+        }
     } else {
         // Stage 1
         auto player = std::make_unique<Stickman>();

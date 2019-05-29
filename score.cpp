@@ -14,7 +14,12 @@ void Score::increment(unsigned int value) {
 }
 
 void Score::decrement(unsigned int value) {
-    currScore -= value;
+    if(value < currScore) {
+        currScore -= value;
+    }
+    else {
+        currScore = 0;
+    }
 }
 
 // Render score from left to right. Requires FILO reading of integer
