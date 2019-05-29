@@ -6,6 +6,7 @@
 #include "largejumptest.h"
 #include "walkunderneathtest.h"
 #include "lifepoweruptest.h"
+#include "giantpoweruptest.h"
 #include "swaprendererstage.h"
 #include "testingdialog.h"
 #include "stage2dialog.h"
@@ -59,10 +60,11 @@ std::unique_ptr<GameStage> StageFactory::createStage() {
             return std::make_unique<SwapRendererStage>(std::move(stage));
         } else {
             std::vector<std::unique_ptr<TestRunner>> tests;
-            tests.push_back(std::make_unique<BreakObstacleTest>());
-            tests.push_back(std::make_unique<LargeJumpTest>());
-            tests.push_back(std::make_unique<WalkUnderneathTest>());
-            tests.push_back(std::make_unique<LifePowerupTest>());
+//            tests.push_back(std::make_unique<BreakObstacleTest>());
+//            tests.push_back(std::make_unique<LargeJumpTest>());
+//            tests.push_back(std::make_unique<WalkUnderneathTest>());
+//            tests.push_back(std::make_unique<LifePowerupTest>());
+            tests.push_back(std::make_unique<GiantPowerupTest>());
 
             std::unique_ptr<GameStage> tester = std::make_unique<TestingDialog>(std::move(tests));
             return std::make_unique<SwapRendererStage>(std::move(tester));
