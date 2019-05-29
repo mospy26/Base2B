@@ -22,7 +22,7 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
     renderPowerups(renderer);
-    lifeScore.render(renderer, 60);
+    lifeScore.render(renderer, 700, 60);
 }
 
 void Stage3Dialog::update() {

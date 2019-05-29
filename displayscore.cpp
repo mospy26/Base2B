@@ -6,7 +6,7 @@ DisplayScore::DisplayScore(std::string name)
     sprite = sprite.scaledToHeight(20);
 }
 
-void DisplayScore::render(Renderer &renderer, unsigned int yCoordinate) {
-    renderer.draw(700 - sprite.width() - 20, yCoordinate, sprite);
-    Score::render(renderer, yCoordinate);
+void DisplayScore::render(Renderer &renderer, unsigned int xCoordinate, unsigned int yCoordinate) {
+    renderer.draw(xCoordinate - sprite.width() - 20, yCoordinate, sprite);
+    Score::render(renderer, xCoordinate, yCoordinate);
 }

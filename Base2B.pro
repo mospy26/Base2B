@@ -75,7 +75,8 @@ SOURCES += \
     displayscore.cpp \
     core/testing/testcases/breakobstacletest.cpp \
     core/testing/testcases/largejumptest.cpp \
-    core/testing/testcases/walkunderneathtest.cpp
+    core/testing/testcases/walkunderneathtest.cpp \
+    core/testing/testcases/lifepoweruptest.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -121,7 +122,8 @@ HEADERS += \
     displayscore.h \
     core/testing/testcases/breakobstacletest.h \
     core/testing/testcases/largejumptest.h \
-    core/testing/testcases/walkunderneathtest.h
+    core/testing/testcases/walkunderneathtest.h \
+    core/testing/testcases/lifepoweruptest.h
 
 FORMS += \
         dialog.ui

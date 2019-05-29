@@ -8,7 +8,7 @@ class DisplayScore : public Score
 public:
     DisplayScore(std::string name);
 
-    void render(Renderer& renderer, unsigned int yCoordinate) override;
+    void render(Renderer& renderer, unsigned int xCoordinate, unsigned int yCoordinate) override;
 
 private:
     std::string name;
