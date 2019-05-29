@@ -1,7 +1,7 @@
-#include "tinypoweruptest.h"
+#include "normalpoweruptest.h"
 
-TinyPowerupTest::TinyPowerupTest()
-    : TestRunner("TinyPowerupTest")
+NormalPowerupTest::NormalPowerupTest()
+    : TestRunner("NormalPowerupTest")
 {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
@@ -12,12 +12,12 @@ TinyPowerupTest::TinyPowerupTest()
 
     obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 2)));
     powerups.push_back(std::make_unique<TinyPowerup>(Coordinate(50, 450, 450), 0));
-    QPixmap sprite(":/sprites/tiny.png");
+    QPixmap sprite(":/sprites/normal.png");
     sprite = sprite.scaledToHeight(40);
     powerups[0]->setSprite(sprite);
 }
 
-void TinyPowerupTest::update() {
+void NormalPowerupTest::update() {
     stickman->update(obstacles);
     if(powerups[0]) powerups[0]->updateCoordinate();
     obstacles[0]->setVelocity(0);
@@ -25,7 +25,7 @@ void TinyPowerupTest::update() {
     o->collisionLogic(*stickman);
     if(powerups[0]) powerups[0]->collisionLogic(*stickman);
     if(stickman->collidedWithPowerup()) {
-        stickman->setSize("tiny");
+        stickman->setSize("normaL");
         if(!incremented) {
             score.increment(10); // 10 points gained for giant
             incremented = true;
@@ -37,9 +37,10 @@ void TinyPowerupTest::update() {
     }
 }
 
-void TinyPowerupTest::render(Renderer &renderer) {
+void NormalPowerupTest::render(Renderer &renderer) {
     stickman->render(renderer, counter++);
     obstacles[0]->render(renderer, counter);
     if(powerups[0]) powerups[0]->render(renderer, counter);
     score.render(renderer, 600, 60);
 }
+

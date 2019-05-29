@@ -81,7 +81,8 @@ SOURCES += \
     core/testing/testcases/largepoweruptest.cpp \
     core/testing/testcases/tinypoweruptest.cpp \
     core/testing/testcases/stickmandiestest.cpp \
-    core/testing/testcases/stickmanwinstest.cpp
+    core/testing/testcases/stickmanwinstest.cpp \
+    core/testing/testcases/normalpoweruptest.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -133,7 +134,8 @@ HEADERS += \
     core/testing/testcases/largepoweruptest.h \
     core/testing/testcases/tinypoweruptest.h \
     core/testing/testcases/stickmandiestest.h \
-    core/testing/testcases/stickmanwinstest.h
+    core/testing/testcases/stickmanwinstest.h \
+    core/testing/testcases/normalpoweruptest.h
 
 FORMS += \
         dialog.ui
