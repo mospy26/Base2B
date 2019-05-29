@@ -40,7 +40,7 @@ Instead of having the powerups stay on the ground, the powerups fall randomly fr
 == Checkpoint flag ==
 A checkpoint flag is placed at the end of every level
 
-== Life meter ==
+== Life score displayed on screen ==
 There is a life score indicator on the screen indicating the amount of lives. DisplayScore class was extended from Score class in order to do so.
 
 == Die song and Win song ==
