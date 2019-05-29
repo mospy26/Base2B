@@ -8,6 +8,7 @@ WalkUnderneathTest::WalkUnderneathTest()
     stickman->setCoordinate(Coordinate(50, 50, 450));
     stickman->setSize("tiny");
     stickman->provideAbility(Ability::NoEffect);
+    stickman->setLives(3);
 
     obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 70, 450), 2)));
 }

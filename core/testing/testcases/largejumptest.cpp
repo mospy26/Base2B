@@ -19,7 +19,6 @@ void LargeJumpTest::update() {
     stickman->setVelocity(8);
     if (stickman->isColliding()) {
         stickman->jump();
-        stickman->jump();
     }
     obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];

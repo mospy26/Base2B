@@ -34,7 +34,7 @@ void Stage3Dialog::update() {
     spawnPowerups(counter);
 
     if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() == 0 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
-        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>("flag", Coordinate(800, 150, 450), background.getVelocity());
+        std::unique_ptr<Entity> entity = std::make_unique<Checkpoint>(Coordinate(800, 150, 450), background.getVelocity());
         QPixmap pix(":/sprites/flag.png");
         pix = pix.scaledToHeight(220);
         entity->setSprite(pix);
@@ -98,7 +98,7 @@ void Stage3Dialog::update() {
     //add 100 points for every destroyed obstacle by giant
     obstacles.erase(std::remove_if(obstacles.begin(), obstacles.end(), [&](const std::unique_ptr<Entity>& o) {
         if(o == nullptr) {
-                score.increment(150); // 150 points for destroying obstacles
+            score.increment(150); // 150 points for destroying obstacles
         }
         return o == nullptr;
     }), obstacles.end());

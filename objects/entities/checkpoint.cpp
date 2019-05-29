@@ -1,7 +1,7 @@
 #include "checkpoint.h"
 
-Checkpoint::Checkpoint(std::string name, Coordinate coordinate, int velocity)
-    : Entity(name, coordinate, velocity)
+Checkpoint::Checkpoint(Coordinate coordinate, int velocity)
+    : Entity("flag", coordinate, velocity)
 {
 
 }

@@ -1,7 +1,7 @@
 #include "largepoweruptest.h"
 
 LargePowerupTest::LargePowerupTest()
-    : TestRunner("LargePoweruptest")
+    : TestRunner("LargePowerupTest")
 {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");

@@ -7,7 +7,7 @@
 class Checkpoint : public Entity
 {
 public:
-    Checkpoint(std::string name, Coordinate coordinate, int velocity);
+    Checkpoint(Coordinate coordinate, int velocity);
 
     void collisionLogic(Stickman& stickman) override;
 };
