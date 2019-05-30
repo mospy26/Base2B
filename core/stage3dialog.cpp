@@ -122,7 +122,7 @@ void Stage3Dialog::update() {
     if(stickman->isColliding() && !walkingStickman->isReachedFlag()) {
         if(walkingStickman->getLives() > 0) {
             walkingStickman->setLives(walkingStickman->getLives() - 1);
-            score.decrement(300); // lose 300 points when losing a life
+            score.decrement(100); // lose 100 points when losing a life
         } if(walkingStickman->getLives() == 0) {
             powerups.clear();
             dieSong->play();

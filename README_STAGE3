@@ -24,12 +24,26 @@ Command Pattern
 ======= Coding Style =======
 See README_STAGE1
 
+======= Lives ==============
+THe lives are configurable. The config file has a new field:
+"lives: x" where x would be the positive number of lives
+
 ======= Powerups ===========
-Life powerup: The green mushroom
+Life powerup: Green mushroom
 Tiny powerup: Blue mushroom
 Normal powerup: Red mushroom
 Large powerup: Mario flower
 Giant powerup: Yellow mario star
+
+======= Score ============
+The score calculation for stage 3 is as follows:
+1) 50 points when grabbed a life powerup
+2) 30 points when grabbed a giant powerup
+3) 10 points for any other powerup
+4) 150 points for every obstacle that was destroyed by the giant stickman
+5) Lose 100 points for losing a life
+6) 500 points for proceeding to the next level
+7) 2000 points for winning the game
 
 ======= Extensions =======
 == Life power up ==
@@ -52,6 +66,12 @@ Giant powerup is spawned less frequently, since it provides a great advantage to
 
 == Maximum level indicator ==
 An indicator indicating how many levels exist in the game "1/3" means that the user is on 1st level out of 3 levels.
+
+== Score calculation ==
+The score calculation is quite complex. The score calculation is explained above.
+
+== Stickman movement ==
+The background moves along with the stickman only after the stickman goes half way past the beginning of the dialog screen.
 
 == Checkpoint flag ==
 A checkpoint flag is placed at the end of every level
