@@ -1,8 +1,6 @@
 #include "checkpoint.h"
 
-Checkpoint::Checkpoint(Coordinate coordinate, int velocity)
-    : Entity("flag", coordinate, velocity)
-{
+Checkpoint::Checkpoint(Coordinate coordinate, int velocity) : Entity("flag", coordinate, velocity) {
 
 }
 

@@ -3,8 +3,7 @@
 
 #include "powerup.h"
 
-class LargePowerup : public Powerup
-{
+class LargePowerup : public Powerup {
 public:
     LargePowerup(Coordinate coordinate, int velocity);
 

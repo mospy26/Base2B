@@ -5,8 +5,7 @@
 #include "walkingstickman.h"
 #include "displayscore.h"
 
-class StickmanWinsTest : public TestRunner
-{
+class StickmanWinsTest : public TestRunner {
 public:
     StickmanWinsTest();
 

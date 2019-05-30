@@ -1,8 +1,7 @@
 #include "score.h"
 
-Score::Score():
-    hiscore(), currScore(0) {
-    for (int i = 0; i < 10; i++) {
+Score::Score() : hiscore(), currScore(0) {
+    for(int i = 0; i < 10; i++) {
         std::string spritePath = ":sprites/" + std::to_string(i) + ".png";
         QPixmap sprite(QString::fromStdString(spritePath));
         digits[i] = sprite;
@@ -16,8 +15,7 @@ void Score::increment(unsigned int value) {
 void Score::decrement(unsigned int value) {
     if(value < currScore) {
         currScore -= value;
-    }
-    else {
+    } else {
         currScore = 0;
     }
 }

@@ -1,8 +1,6 @@
 #include "powerup.h"
 
-Powerup::Powerup(std::string name, Coordinate coordinate, int velocity)
-    : Entity(name, coordinate, velocity)
-{
+Powerup::Powerup(std::string name, Coordinate coordinate, int velocity) : Entity(name, coordinate, velocity) {
 
 }
 

@@ -3,8 +3,8 @@
 #include "flyingentity.h"
 #include "collision.h"
 
-Dialog::Dialog(Game &game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory):
-    game(game),
+Dialog::Dialog(Game &game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory)
+    : game(game),
     stickman(std::move(stickman)),
     factory(std::move(factory)),
     background(),
@@ -64,10 +64,7 @@ void Dialog::input(QKeyEvent &event) {
 }
 
 void Dialog::releasedInput(QKeyEvent &event) {
-    WalkingStickman* walking = dynamic_cast<WalkingStickman*>(&(*stickman));
-    if(walking) {
-        walking->handleReleasedInput(event);
-    }
+
 }
 
 // Draws ground and clouds and sets sky colour

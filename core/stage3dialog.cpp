@@ -1,8 +1,7 @@
 #include "stage3dialog.h"
 
 Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives"), levelScore("level"), maximumLevelsScore("slash")
-{
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives"), levelScore("level"), maximumLevelsScore("slash") {
     lifeScore.increment(lives);
     if(!infiniteMode) {
         maximumLevelsScore.increment(this->levels.size() + 1);
@@ -95,11 +94,9 @@ void Stage3Dialog::update() {
             if((*powerups.begin())->getName() == "life") {
                 score.increment(50);
                 lifeScore.increment();
-            }
-            else if((*powerups.begin())->getName() == "giant") {
+            } else if((*powerups.begin())->getName() == "giant") {
                 score.increment(30);
-            }
-            else {
+            } else {
                 score.increment(10);
             }
         }
@@ -142,8 +139,7 @@ void Stage3Dialog::update() {
             nextLevel();
             levelScore.increment(infiniteMode ? 0 : 1);
             score.increment(500); // win 500 points for proceeding to next level
-        }
-        else if(!infiniteMode && levels.size() <= 1) {
+        } else if(!infiniteMode && levels.size() <= 1) {
             powerups.clear();
             win();
             if(winSong->state() == QMediaPlayer::StoppedState && playedWin) {
@@ -167,8 +163,7 @@ void Stage3Dialog::moveBackground() {
         for(auto& powerup : powerups) {
             powerup->setVelocity(8);
         }
-    }
-    else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
+    } else if(stickmanFront - stickman->width() <= 0 && stickmanFront - stickman->width() >= -9 && walkingStickman->isMovingLeft()) {
         walkingStickman->getCoordinate().setXCoordinate(0);
         walkingStickman->setVelocity(0);
         for(auto& obs : obstacles) {
@@ -178,10 +173,7 @@ void Stage3Dialog::moveBackground() {
         for(auto& powerup : powerups) {
             powerup->setVelocity(0);
         }
-
-        //do stickman : can go backwards instead of stopping it - extension
-    }
-    else if(walkingStickman->getVelocity() == 0) {
+    } else if(walkingStickman->getVelocity() == 0) {
         background.setVelocity(0);
         for(auto& obs : obstacles) {
             if(obs == nullptr) continue;
@@ -219,7 +211,7 @@ void Stage3Dialog::spawnObstacles(unsigned int counter) {
     }
 
     // Only spawn the obstacle if it isn't colliding with anything
-    if (!isOverlapping && nextObstacle < obstacleLayout.size()) {
+    if(!isOverlapping && nextObstacle < obstacleLayout.size()) {
         auto obs = e.first->clone();
         obs->setVelocity(background.getVelocity());
         addObstacle(std::move(obs));

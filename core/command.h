@@ -3,14 +3,21 @@
 
 #include "walkingstickman.h"
 
-class Command
-{
+class Command {
 public:
+    /**
+     * @brief Command Sets the stickman as a stickman
+     * @param stickman
+     */
     Command(WalkingStickman& stickman)
         : stickman(&stickman) {}
 
     virtual ~Command() {}
 
+    /**
+     * @brief execute Defines what it means to handle a received command
+     * @param event
+     */
     virtual void execute(QInputEvent* event) = 0;
 
 protected:

@@ -1,8 +1,6 @@
 #include "keypresscommand.h"
 
-KeyPressCommand::KeyPressCommand(WalkingStickman& stickman)
-    : Command(stickman)
-{
+KeyPressCommand::KeyPressCommand(WalkingStickman& stickman) : Command(stickman) {
 
 }
 
@@ -12,8 +10,7 @@ void KeyPressCommand::execute(QInputEvent* event) {
     if(keyEvent->key() == Qt::Key_Right && !keyEvent->isAutoRepeat()) {
         stickman->setVelocity(8);
         stickman->setMovingIndicators(true, stickman->isMovingLeft());
-    }
-    else if(keyEvent->key() == Qt::Key_Left && !keyEvent->isAutoRepeat()) {
+    } else if(keyEvent->key() == Qt::Key_Left && !keyEvent->isAutoRepeat()) {
         stickman->setVelocity(-8);
         stickman->setMovingIndicators(stickman->isMovingRight(), true);
     }

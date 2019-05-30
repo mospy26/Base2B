@@ -2,8 +2,8 @@
 #include <QDebug>
 #include "testingdialog.h"
 
-TestingDialog::TestingDialog(std::vector<std::unique_ptr<TestRunner>> tests, int timeout, int nextTestWaitTime) :
-    timeout(timeout), nextTestWaitTime(nextTestWaitTime), tests(std::move(tests)), currentTest(0), initialized(false), waiting(false) {
+TestingDialog::TestingDialog(std::vector<std::unique_ptr<TestRunner>> tests, int timeout, int nextTestWaitTime)
+    : timeout(timeout), nextTestWaitTime(nextTestWaitTime), tests(std::move(tests)), currentTest(0), initialized(false), waiting(false) {
 
 }
 

@@ -1,8 +1,6 @@
 #include "walkunderneathtest.h"
 
-WalkUnderneathTest::WalkUnderneathTest()
-    : TestRunner("WalkUnderneathTest")
-{
+WalkUnderneathTest::WalkUnderneathTest() : TestRunner("WalkUnderneathTest") {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));

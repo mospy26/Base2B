@@ -3,8 +3,7 @@
 
 #include "powerup.h"
 
-class TinyPowerup : public Powerup
-{
+class TinyPowerup : public Powerup {
 public:
     TinyPowerup(Coordinate coordinate, int velocity);
 

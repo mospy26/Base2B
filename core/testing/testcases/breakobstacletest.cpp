@@ -1,9 +1,7 @@
 #include "breakobstacletest.h"
 #include "flyingentity.h"
 
-BreakObstacleTest::BreakObstacleTest()
-    : TestRunner ("BreakObstacleTest")
-{
+BreakObstacleTest::BreakObstacleTest() : TestRunner ("BreakObstacleTest") {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));
@@ -18,14 +16,20 @@ BreakObstacleTest::BreakObstacleTest()
 void BreakObstacleTest::update() {
     stickman->update(obstacles);
     stickman->setVelocity(8);
-    if(obstacles[0]) obstacles[0]->collisionLogic(*stickman);
+    if(obstacles[0]) {
+        obstacles[0]->collisionLogic(*stickman);
+    }
     if(stickman->isColliding()) {
         obstacles[0] = nullptr;
     }
-    if(obstacles[0] == nullptr) status = Status::Passed;
+    if(obstacles[0] == nullptr) {
+        status = Status::Passed;
+    }
 }
 
 void BreakObstacleTest::render(Renderer &renderer) {
     stickman->render(renderer, counter++);
-    if(obstacles[0]) obstacles[0]->render(renderer, counter);
+    if(obstacles[0]) {
+        obstacles[0]->render(renderer, counter);
+    }
 }

@@ -1,8 +1,6 @@
 #include "tinypowerup.h"
 
-TinyPowerup::TinyPowerup(Coordinate coordinate, int velocity)
-    : Powerup("tiny", coordinate, velocity)
-{
+TinyPowerup::TinyPowerup(Coordinate coordinate, int velocity) : Powerup("tiny", coordinate, velocity) {
 
 }
 

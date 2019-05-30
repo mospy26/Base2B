@@ -1,8 +1,6 @@
 #include "displayscore.h"
 
-DisplayScore::DisplayScore(std::string name)
-    : name(name), sprite(":/sprites/" + QString(name.c_str()) + ".png")
-{
+DisplayScore::DisplayScore(std::string name) : name(name), sprite(":/sprites/" + QString(name.c_str()) + ".png") {
     sprite = sprite.scaledToHeight(20);
 }
 

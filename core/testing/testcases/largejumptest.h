@@ -4,8 +4,7 @@
 #include "testrunner.h"
 #include "walkingstickman.h"
 
-class LargeJumpTest : public TestRunner
-{
+class LargeJumpTest : public TestRunner {
 public:
     LargeJumpTest();
 

@@ -4,9 +4,13 @@
 #include "entitydecorator.h"
 #include "walkingstickman.h"
 
-class Checkpoint : public Entity
-{
+class Checkpoint : public Entity {
 public:
+    /**
+     * @brief Checkpoint Create a checkpoint flag with coordinate and velocity as provided
+     * @param coordinate
+     * @param velocity
+     */
     Checkpoint(Coordinate coordinate, int velocity);
 
     void collisionLogic(Stickman& stickman) override;

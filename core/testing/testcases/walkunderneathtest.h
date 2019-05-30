@@ -4,8 +4,7 @@
 #include "testrunner.h"
 #include "walkingstickman.h"
 
-class WalkUnderneathTest : public TestRunner
-{
+class WalkUnderneathTest : public TestRunner {
 public:
     WalkUnderneathTest();
 

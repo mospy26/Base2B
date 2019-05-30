@@ -3,9 +3,12 @@
 
 #include "score.h"
 
-class DisplayScore : public Score
-{
+class DisplayScore : public Score {
 public:
+    /**
+     * @brief DisplayScore Make a score with a sprite representing the score, intialises the sprite
+     * @param name
+     */
     DisplayScore(std::string name);
 
     void render(Renderer& renderer, unsigned int xCoordinate, unsigned int yCoordinate, int padding = 20) override;

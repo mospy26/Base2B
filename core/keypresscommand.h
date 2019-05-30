@@ -3,8 +3,7 @@
 
 #include "command.h"
 
-class KeyPressCommand : public Command
-{
+class KeyPressCommand : public Command {
 public:
     KeyPressCommand(WalkingStickman& stickman);
 

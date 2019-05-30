@@ -1,8 +1,6 @@
 #include "lifepowerup.h"
 
-LifePowerup::LifePowerup(Coordinate coordinate, int velocity)
-    : Powerup("life", coordinate, velocity)
-{
+LifePowerup::LifePowerup(Coordinate coordinate, int velocity) : Powerup("life", coordinate, velocity) {
 
 }
 

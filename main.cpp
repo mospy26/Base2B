@@ -98,7 +98,6 @@ int main(int argc, char *argv[]) {
     vector<unique_ptr<Level>> levels;
     stageConfig.levels = &levels;
 
-    int infiniteMode = -1;
     stageConfig.infiniteMode = false;
 
     // Read config file and set basic game attributes
@@ -194,11 +193,9 @@ int main(int argc, char *argv[]) {
         } else if(setting == "infiniteMode:") {
             if(value == "yes") {
                 stageConfig.infiniteMode = true;
-            }
-            else if(value == "no") {
+            } else if(value == "no") {
                 stageConfig.infiniteMode = false;
-            }
-            else {
+            }   else {
                 cout << "Infinite mode must be \"yes\" or \"no\". Terminating." << std::endl;
                 return -1;
             }

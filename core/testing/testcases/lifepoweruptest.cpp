@@ -1,8 +1,6 @@
 #include "lifepoweruptest.h"
 
-LifePowerupTest::LifePowerupTest()
-    : TestRunner("LifePowerupTest"), lifeScore("lives")
-{
+LifePowerupTest::LifePowerupTest() : TestRunner("LifePowerupTest"), lifeScore("lives") {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));
@@ -20,11 +18,15 @@ LifePowerupTest::LifePowerupTest()
 
 void LifePowerupTest::update() {
     stickman->update(obstacles);
-    if(powerups[0]) powerups[0]->updateCoordinate();
+    if(powerups[0]) {
+        powerups[0]->updateCoordinate();
+    }
     obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];
     o->collisionLogic(*stickman);
-    if(powerups[0]) powerups[0]->collisionLogic(*stickman);
+    if(powerups[0]) {
+        powerups[0]->collisionLogic(*stickman);
+    }
     if(stickman->collidedWithPowerup()) {
         if(!incremented) {
             lifeScore.increment();
@@ -32,7 +34,7 @@ void LifePowerupTest::update() {
         }
         powerups[0] = nullptr;
     }
-    if (stickman->getLives() == 4) {
+    if(stickman->getLives() == 4) {
         status = Status::Passed;
     }
 }
@@ -40,6 +42,8 @@ void LifePowerupTest::update() {
 void LifePowerupTest::render(Renderer &renderer) {
     stickman->render(renderer, counter++);
     obstacles[0]->render(renderer, counter);
-    if(powerups[0]) powerups[0]->render(renderer, counter);
+    if(powerups[0]) {
+        powerups[0]->render(renderer, counter);
+    }
     lifeScore.render(renderer, 600, 60);
 }

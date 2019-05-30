@@ -1,9 +1,7 @@
 #include "stickmanwinstest.h"
 #include "checkpoint.h"
 
-StickmanWinsTest::StickmanWinsTest()
-    : TestRunner("StickmanWinsTest"), score()
-{
+StickmanWinsTest::StickmanWinsTest() : TestRunner("StickmanWinsTest"), score() {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));
@@ -33,7 +31,7 @@ void StickmanWinsTest::update() {
         velocity = 3;
     }
 
-    if (stickman->getCoordinate().getXCoordinate() > 650) {
+    if(stickman->getCoordinate().getXCoordinate() > 650) {
         status = Status::Passed;
     }
 }

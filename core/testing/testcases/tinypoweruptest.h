@@ -6,8 +6,7 @@
 #include "tinypowerup.h"
 #include "displayscore.h"
 
-class TinyPowerupTest : public TestRunner
-{
+class TinyPowerupTest : public TestRunner {
 public:
     TinyPowerupTest();
 

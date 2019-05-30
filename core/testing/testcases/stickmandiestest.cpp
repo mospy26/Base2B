@@ -1,8 +1,6 @@
 #include "stickmandiestest.h"
 
-StickmanDiesTest::StickmanDiesTest()
-    : TestRunner("StickmanDiesTest"), lifeScore("lives"), score(), velocity(8)
-{
+StickmanDiesTest::StickmanDiesTest() : TestRunner("StickmanDiesTest"), lifeScore("lives"), score(), velocity(8) {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));
@@ -31,7 +29,7 @@ void StickmanDiesTest::update() {
         score.decrement(300); // lose 300 points for dying
     }
 
-    if (stickman->getCoordinate().getYCoordinate() < 0) {
+    if(stickman->getCoordinate().getYCoordinate() < 0) {
         status = Status::Passed;
     }
 }

@@ -1,8 +1,8 @@
 #include "jumpingstickman.h"
 #include "collision.h"
 
-JumpingStickman::JumpingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity) :
-    floor(floor), jumpImpulse(jumpImpulse), jumpVelocity(0), gravity(gravity), jumpCount(0), maxJumpCount(maxJumpCount)  {
+JumpingStickman::JumpingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity)
+    : floor(floor), jumpImpulse(jumpImpulse), jumpVelocity(0), gravity(gravity), jumpCount(0), maxJumpCount(maxJumpCount)  {
 
 }
 

@@ -3,8 +3,7 @@
 
 #include "powerup.h"
 
-class GiantPowerup : public Powerup
-{
+class GiantPowerup : public Powerup {
 public:
     GiantPowerup(Coordinate coordinate, int velocity);
 

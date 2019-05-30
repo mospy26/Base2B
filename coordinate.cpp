@@ -3,8 +3,8 @@
 Coordinate::Coordinate(
         unsigned int x,
         unsigned int y,
-        unsigned int frameHeight
-        ): m_xCoordinate(x), m_yCoordinate(y), m_frameHeight(frameHeight) {
+        unsigned int frameHeight)
+    : m_xCoordinate(x), m_yCoordinate(y), m_frameHeight(frameHeight) {
 }
 
 int Coordinate::getQtRenderingXCoordinate() {

@@ -1,8 +1,6 @@
 #include "largejumptest.h"
 
-LargeJumpTest::LargeJumpTest()
-    : TestRunner("LargeJumpTest")
-{
+LargeJumpTest::LargeJumpTest() : TestRunner("LargeJumpTest") {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));

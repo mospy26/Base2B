@@ -5,11 +5,9 @@
 #include "walkingstickman.h"
 
 
-class BreakObstacleTest : public TestRunner
-{
+class BreakObstacleTest : public TestRunner {
 public:
     BreakObstacleTest();
-
 
     void update();
     void render(Renderer &renderer);

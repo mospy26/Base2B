@@ -1,8 +1,6 @@
 #include "giantpowerup.h"
 
-GiantPowerup::GiantPowerup(Coordinate coordinate, int velocity)
-    : Powerup("giant", coordinate, velocity)
-{
+GiantPowerup::GiantPowerup(Coordinate coordinate, int velocity): Powerup("giant", coordinate, velocity) {
 
 }
 

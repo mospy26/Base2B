@@ -1,8 +1,6 @@
 #include "normalpoweruptest.h"
 
-NormalPowerupTest::NormalPowerupTest()
-    : TestRunner("NormalPowerupTest")
-{
+NormalPowerupTest::NormalPowerupTest() : TestRunner("NormalPowerupTest") {
     stickman = std::make_unique<WalkingStickman>(50);
     stickman->setSprite(":sprites/sprite0.png");
     stickman->setCoordinate(Coordinate(50, 50, 450));
@@ -19,11 +17,15 @@ NormalPowerupTest::NormalPowerupTest()
 
 void NormalPowerupTest::update() {
     stickman->update(obstacles);
-    if(powerups[0]) powerups[0]->updateCoordinate();
+    if(powerups[0]) {
+        powerups[0]->updateCoordinate();
+    }
     obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];
     o->collisionLogic(*stickman);
-    if(powerups[0]) powerups[0]->collisionLogic(*stickman);
+    if(powerups[0]) {
+        powerups[0]->collisionLogic(*stickman);
+    }
     if(stickman->collidedWithPowerup()) {
         stickman->setSize("normal");
         if(!incremented) {
@@ -32,7 +34,7 @@ void NormalPowerupTest::update() {
         }
         powerups[0] = nullptr;
     }
-    if (incremented) {
+    if(incremented) {
         status = Status::Passed;
     }
 }
@@ -40,7 +42,9 @@ void NormalPowerupTest::update() {
 void NormalPowerupTest::render(Renderer &renderer) {
     stickman->render(renderer, counter++);
     obstacles[0]->render(renderer, counter);
-    if(powerups[0]) powerups[0]->render(renderer, counter);
+    if(powerups[0]) {
+        powerups[0]->render(renderer, counter);
+    }
     score.render(renderer, 600, 60);
 }
 

@@ -6,8 +6,7 @@
 #include "lifepowerup.h"
 #include "displayscore.h"
 
-class LifePowerupTest : public TestRunner
-{
+class LifePowerupTest : public TestRunner {
 public:
     LifePowerupTest();
 

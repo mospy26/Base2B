@@ -1,8 +1,7 @@
 #include "walkingstickman.h"
 
 WalkingStickman::WalkingStickman(int floor, int jumpImpulse, int maxJumpCount, int gravity)
-    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity), reachedFlag(false), collidedPowerup(false)
-{
+    : JumpingStickman(floor, jumpImpulse, maxJumpCount, gravity), reachedFlag(false), collidedPowerup(false) {
 
 }
 
@@ -22,12 +21,9 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
         if (col.overlapped && lives > 0) {
             if(ability != Ability::BreakObstacles) {
                 colliding = true;
-            }
-            else if(ability == Ability::BreakObstacles && other->getName() != "flag") {
+            } else if(ability == Ability::BreakObstacles && other->getName() != "flag") {
                 other = nullptr;
-            }
-            //the only obstacle is a flag
-            else if(ability == Ability::BreakObstacles && other->getName() == "flag" && obstacles.size() == 1) {
+            } else if(ability == Ability::BreakObstacles && other->getName() == "flag" && obstacles.size() == 1) { //the only obstacle is a flag
                 colliding = true;
             }
         }
@@ -45,36 +41,8 @@ void WalkingStickman::update(std::vector<std::unique_ptr<Entity>>& obstacles) {
     jumpVelocity += gravity;
 }
 
-void WalkingStickman::handleInput(QKeyEvent& event) {
-
-    //Call the handle input method from JumpingStickman that records the jumping key
-    if(lives > 0) {
-        JumpingStickman::handleInput(event);
-
-        if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
-            velocity = -8;
-            movingLeft = true;
-        }
-        if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
-            velocity = 8;
-            movingRight = true;
-        }
-    }
-
-}
-
 void WalkingStickman::putBack() {
     setCoordinate(initialCoordinates);
-}
-
-void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
-    if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
-        movingRight = false;
-    }
-    if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
-        movingLeft = false;
-    }
-
 }
 
 int WalkingStickman::getVelocity() const {

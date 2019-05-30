@@ -1,8 +1,6 @@
 #include "largepowerup.h"
 
-LargePowerup::LargePowerup(Coordinate coordinate, int velocity)
-    :   Powerup("large", coordinate, velocity)
-{
+LargePowerup::LargePowerup(Coordinate coordinate, int velocity) : Powerup("large", coordinate, velocity) {
 
 }
 

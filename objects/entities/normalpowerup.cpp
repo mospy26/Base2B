@@ -1,8 +1,6 @@
 #include "normalpowerup.h"
 
-NormalPowerup::NormalPowerup(Coordinate coordinate, int velocity)
-    : Powerup("normal", coordinate, velocity)
-{
+NormalPowerup::NormalPowerup(Coordinate coordinate, int velocity) : Powerup("normal", coordinate, velocity) {
 
 }
 
