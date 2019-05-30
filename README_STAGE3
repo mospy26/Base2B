@@ -24,6 +24,13 @@ Command Pattern
 ======= Coding Style =======
 See README_STAGE1
 
+======= Powerups ===========
+Life powerup: The green mushroom
+Tiny powerup: Blue mushroom
+Normal powerup: Red mushroom
+Large powerup: Mario flower
+Giant powerup: Yellow mario star
+
 ======= Extensions =======
 == Life power up ==
 An additional powerup, life powerup in the shape of a green mushroom (like in mario) that provides user with an extra life if grabbed.
