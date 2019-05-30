@@ -70,11 +70,9 @@ void WalkingStickman::putBack() {
 void WalkingStickman::handleReleasedInput(QKeyEvent& event) {
     if(event.key() == Qt::Key_Right && !event.isAutoRepeat()) {
         movingRight = false;
-        velocity = 0;
     }
     if(event.key() == Qt::Key_Left && !event.isAutoRepeat()) {
         movingLeft = false;
-        velocity = 0;
     }
 
 }

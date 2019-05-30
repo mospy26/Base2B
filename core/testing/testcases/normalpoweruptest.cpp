@@ -25,7 +25,7 @@ void NormalPowerupTest::update() {
     o->collisionLogic(*stickman);
     if(powerups[0]) powerups[0]->collisionLogic(*stickman);
     if(stickman->collidedWithPowerup()) {
-        stickman->setSize("normaL");
+        stickman->setSize("normal");
         if(!incremented) {
             score.increment(10); // 10 points gained for giant
             incremented = true;

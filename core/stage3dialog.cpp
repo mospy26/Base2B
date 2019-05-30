@@ -43,7 +43,9 @@ void Stage3Dialog::update() {
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*stickman));
     walkingStickman->setCollidedWithPowerup(false);
 
-    moveBackground();
+    if(!walkingStickman->isReachedFlag() && levels.size() >= 1) {
+        moveBackground();
+    }
     spawnPowerups(counter);
 
     if(nextObstacle == obstacleLayout.size() && !checkpointPlaced && obstacles.size() == 0 /*&& obstacles.back()->getCoordinate().getXCoordinate() < -obstacles.back()->getSprite().width() + 9*/) {
@@ -82,6 +84,7 @@ void Stage3Dialog::update() {
 
     for (auto& powerup : powerups) {
         powerup->collisionLogic(*walkingStickman);
+        if(walkingStickman->collidedWithPowerup()) break;
     }
 
     //erase the collected powerup
@@ -249,6 +252,13 @@ void Stage3Dialog::win() {
         winSong->play();
         score.increment(2000); // 2000 points if won the game
         playedWin = true;
+    }
+    background.setVelocity(0);
+    for(auto& o : obstacles) {
+        o->setVelocity(0);
+    }
+    for(auto& p : powerups) {
+        p->setVelocity(0);
     }
     walkingStickman->setVelocity(0);
     walkingStickman->getCoordinate().setXCoordinate(walkingStickman->getCoordinate().getXCoordinate() + 3);
