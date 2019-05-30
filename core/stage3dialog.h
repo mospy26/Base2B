@@ -46,6 +46,7 @@ private:
     std::vector<std::unique_ptr<Powerup>> powerups;
     DisplayScore lifeScore;
     DisplayScore levelScore;
+    DisplayScore maximumLevelsScore;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };

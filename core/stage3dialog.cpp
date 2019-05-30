@@ -1,9 +1,12 @@
 #include "stage3dialog.h"
 
 Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives"), levelScore("level")
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives"), levelScore("level"), maximumLevelsScore("slash")
 {
     lifeScore.increment(lives);
+    if(!infiniteMode) {
+        maximumLevelsScore.increment(this->levels.size() + 1);
+    }
     background.setVelocity(0);
     WalkingStickman* walkingStickman = dynamic_cast<WalkingStickman*>(&(*this->stickman));
     keyPress = std::make_unique<KeyPressCommand>(*walkingStickman);
@@ -30,7 +33,9 @@ void Stage3Dialog::render(Renderer &renderer) {
     renderPowerups(renderer);
     lifeScore.render(renderer, 700, 75);
     levelScore.render(renderer, 700, 45);
-
+    if(!infiniteMode) {
+        maximumLevelsScore.render(renderer, 730, 45, 2);
+    }
 }
 
 void Stage3Dialog::update() {
@@ -80,18 +85,20 @@ void Stage3Dialog::update() {
     }
 
     //erase the collected powerup
-    if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0)) {
-        //deal with the score before deleting it
-        // 50 for a life powerup, 30 for a giant powerup and 10 for other powerups
-        if((*powerups.begin())->getName() == "life") {
-            score.increment(50);
-            lifeScore.increment();
-        }
-        else if((*powerups.begin())->getName() == "giant") {
-            score.increment(30);
-        }
-        else {
-            score.increment(10);
+    if(powerups.size() > 0 && (walkingStickman->collidedWithPowerup() || powerups[0]->getCoordinate().getXCoordinate() < 0))  {
+        if(walkingStickman->collidedWithPowerup()) { // only get the powerup points and score if stickman collided with it
+            //deal with the score before deleting it
+            // 50 for a life powerup, 30 for a giant powerup and 10 for other powerups
+            if((*powerups.begin())->getName() == "life") {
+                score.increment(50);
+                lifeScore.increment();
+            }
+            else if((*powerups.begin())->getName() == "giant") {
+                score.increment(30);
+            }
+            else {
+                score.increment(10);
+            }
         }
         powerups.erase(powerups.begin());
     }
@@ -259,22 +266,26 @@ void Stage3Dialog::spawnPowerups(unsigned int counter) {
     srand(time(NULL));
     if(counter % 200 == 0) {
         int randomX = rand() % 800 + 400;
-        int randomName = rand() % 5;
+        int randomName = rand() % 8;
         std::unique_ptr<Powerup> powerup;
         switch(randomName) {
             case 0:
                 powerup = std::make_unique<GiantPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
             case 1:
+            case 2:
                 powerup = std::make_unique<NormalPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
-            case 2:
+            case 3:
+            case 4:
                 powerup = std::make_unique<TinyPowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
-            case 3:
+            case 5:
+            case 6:
                 powerup = std::make_unique<LifePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
-            case 4:
+            case 7:
+            case 8:
                 powerup = std::make_unique<LargePowerup>(Coordinate(randomX, 450, 450), background.getVelocity());
                 break;
         }

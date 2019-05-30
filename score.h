@@ -13,7 +13,7 @@ public:
 
     void increment(unsigned int value = 1);
     void decrement(unsigned int value = 1);
-    virtual void render(Renderer &renderer, unsigned int xPosition = 700, unsigned int yPosition = 20);
+    virtual void render(Renderer &renderer, unsigned int xPosition = 700, unsigned int yPosition = 20, int padding = 20);
 
 private:
     unsigned int hiscore;

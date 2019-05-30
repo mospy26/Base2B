@@ -40,6 +40,12 @@ With the configurable infinite mode in the config file having format :- "infinit
 == Powerups fall from the sky ==
 Instead of having the powerups stay on the ground, the powerups fall randomly from the sky.
 
+== Spowning powerups : Giant spawned less frequently ==
+Giant powerup is spawned less frequently, since it provides a great advantage to the stickman, hence more valuable.
+
+== Maximum level indicator ==
+An indicator indicating how many levels exist in the game "1/3" means that the user is on 1st level out of 3 levels.
+
 == Checkpoint flag ==
 A checkpoint flag is placed at the end of every level
 

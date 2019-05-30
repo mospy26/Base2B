@@ -23,7 +23,7 @@ void Score::decrement(unsigned int value) {
 }
 
 // Render score from left to right. Requires FILO reading of integer
-void Score::render(Renderer &renderer, unsigned int xPosition, unsigned int yPosition) {
+void Score::render(Renderer &renderer, unsigned int xPosition, unsigned int yPosition, int) {
     std::stack<int> number;
     unsigned int score = currScore;
     if(score == 0) {

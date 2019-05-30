@@ -38,5 +38,6 @@
         <file>sprites/large.png</file>
         <file>sprites/lives.png</file>
         <file>sprites/level.png</file>
+        <file>sprites/slash.png</file>
     </qresource>
 </RCC>
