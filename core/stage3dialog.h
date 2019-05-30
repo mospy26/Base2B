@@ -45,6 +45,7 @@ private:
     std::unique_ptr<Command> keyReleased;
     std::vector<std::unique_ptr<Powerup>> powerups;
     DisplayScore lifeScore;
+    DisplayScore levelScore;
     bool checkpointPlaced = false;
     bool playedWin = false;
 };

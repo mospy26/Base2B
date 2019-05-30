@@ -1,7 +1,7 @@
 #include "stage3dialog.h"
 
 Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::unique_ptr<EntityFactory> factory, std::vector<std::pair<std::unique_ptr<Entity>, int>> obstacleLayout, unsigned int lives, std::vector<std::unique_ptr<Level>> levels, bool infiniteMode)
-    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives")
+    : Stage2Dialog(game, std::move(stickman), std::move(factory), std::move(obstacleLayout)), lives(lives), levels(std::move(levels)), infiniteMode(infiniteMode), lifeScore("lives"), levelScore("level")
 {
     lifeScore.increment(lives);
     background.setVelocity(0);
@@ -17,12 +17,20 @@ Stage3Dialog::Stage3Dialog(Game& game, std::unique_ptr<Stickman> stickman, std::
     std::unique_ptr<Level> initialLevel = std::make_unique<Level>(std::move(obstacleLayout));
     this->levels.insert(this->levels.begin(), std::move(initialLevel));
     obstacleLayout = this->levels.front()->getObstacleLayout();
+    if(!infiniteMode) {
+        levelScore.increment(1);
+    } else {
+        levelScore.increment(9999);
+    }
+
 }
 
 void Stage3Dialog::render(Renderer &renderer) {
     Dialog::render(renderer);
     renderPowerups(renderer);
-    lifeScore.render(renderer, 700, 60);
+    lifeScore.render(renderer, 700, 75);
+    levelScore.render(renderer, 700, 45);
+
 }
 
 void Stage3Dialog::update() {
@@ -122,6 +130,7 @@ void Stage3Dialog::update() {
     } else if(walkingStickman->isReachedFlag()) { //reached checkpoint
         if(levels.size() > 1) {
             nextLevel();
+            levelScore.increment(infiniteMode ? 0 : 1);
             score.increment(500); // win 500 points for proceeding to next level
         }
         else if(!infiniteMode && levels.size() <= 1) {

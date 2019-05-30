@@ -13,6 +13,9 @@ Additional obstacles in order to make at least 2 levels is specified in the conf
 
 The OBSTACLE has the same format as specified above. -> is a delimiter for different set of obstacles.
 
+======= Testing mode ==========================
+The testing mode was extended into more testcases: all powerup testcases, giant stickman destroys obstacle test, large stickman can jump higher test, tiny stickman can walk underneath test, stickman dies test and stickman wins the game test.
+
 ======= Behavioural Design Pattern Used =======
 Command Pattern
 -KeyPressCommand: In order to run and execute the key press events.
@@ -40,8 +43,9 @@ Instead of having the powerups stay on the ground, the powerups fall randomly fr
 == Checkpoint flag ==
 A checkpoint flag is placed at the end of every level
 
-== Life score displayed on screen ==
+== Life score and level score displayed on screen ==
 There is a life score indicator on the screen indicating the amount of lives. DisplayScore class was extended from Score class in order to do so.
+There is also a level score indicator on the screen. For infinite levels, there is the self intuitive "9999" level score indicating infinite levels.
 
 == Die song and Win song ==
 There is a sound effect for dying and winning the mario game.

@@ -25,7 +25,6 @@ using namespace std;
 
 inline bool exists(const std::string& name) {
     QFileInfo fileInfo(name.c_str());
-    std::cout << name << std::endl;
     return fileInfo.exists();
 }
 
