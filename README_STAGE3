@@ -14,10 +14,17 @@ Additional obstacles in order to make at least 2 levels is specified in the conf
 The OBSTACLE has the same format as specified above. -> is a delimiter for different set of obstacles.
 
 ======= Testing mode ==========================
-The testing mode was extended into more testcases: all powerup testcases, giant stickman destroys obstacle test, large stickman can jump higher test, tiny stickman can walk underneath test, stickman dies test and stickman wins the game test.
+The testing mode was extended into more testcases:
+1) All powerup grabbing tests (life, giant, large, normal, tiny)
+2) Giant stickman destroys obstacle test
+3) Large stickman can jump higher test
+4) Tiny stickman can walk underneath test
+5) Stickman restarts level and loses a life when has more than 1 lives
+6) Stickman dies test
+7) Stickman wins the game test.
 
 ======= Behavioural Design Pattern Used =======
-Command Pattern
+Command Pattern : Encapsulate a request (input request in this case) as an object.
 -KeyPressCommand: In order to run and execute the key press events.
 -KeyReleasedCommand: In order to run and execute the key released events.
 
@@ -49,20 +56,22 @@ The score calculation for stage 3 is as follows:
 == Life power up ==
 An additional powerup, life powerup in the shape of a green mushroom (like in mario) that provides user with an extra life if grabbed.
 
-== Powerups spawn randomly ==
-Powerups spawn randomly on the screen in a level
-
 == Dying animation and winning animation ==
 Stickman falls off the screen if died, and stickman makes a slow walk to the right end of the screen if the stickman wins the game.
 
 == Infinite Level mode ==
-With the configurable infinite mode in the config file having format :- "infiniteMode: yes/no", the game can have infinite levels (unless the stickman dies)
+With the configurable infinite mode in the config file having format :- "infiniteMode: yes/no", the game can have infinite levels (unless the stickman dies).
+In this case, the levels repeat from what was specified in the config i.e. say that 5 levels were specified in the config, then the 5 levels repeat again once the sequence of previous 5 is done.
 
 == Powerups fall from the sky ==
 Instead of having the powerups stay on the ground, the powerups fall randomly from the sky.
 
+== Life score and level score displayed on screen ==
+There is a life score indicator on the screen indicating the amount of lives. DisplayScore class was extended from Score class in order to do so.
+There is also a level score indicator on the screen. For infinite levels, there is the self intuitive "9999" level score indicating infinite levels.
+
 == Spowning powerups : Giant spawned less frequently ==
-Giant powerup is spawned less frequently, since it provides a great advantage to the stickman, hence more valuable.
+Giant powerup is spawned less frequently, since it provides a great advantage to the stickman, hence more valuable and should be rare. Rest of the powerups have equal chances of appearing among themselves.
 
 == Maximum level indicator ==
 An indicator indicating how many levels exist in the game "1/3" means that the user is on 1st level out of 3 levels.
@@ -74,11 +83,7 @@ The score calculation is quite complex. The score calculation is explained above
 The background moves along with the stickman only after the stickman goes half way past the beginning of the dialog screen.
 
 == Checkpoint flag ==
-A checkpoint flag is placed at the end of every level
-
-== Life score and level score displayed on screen ==
-There is a life score indicator on the screen indicating the amount of lives. DisplayScore class was extended from Score class in order to do so.
-There is also a level score indicator on the screen. For infinite levels, there is the self intuitive "9999" level score indicating infinite levels.
+A checkpoint flag is placed at the end of every level.
 
 == Die song and Win song ==
 There is a sound effect for dying and winning the mario game.

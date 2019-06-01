@@ -8,7 +8,7 @@ LargeJumpTest::LargeJumpTest() : TestRunner("LargeJumpTest") {
     stickman->provideAbility(Ability::HigherJumping);
     stickman->setLives(3);
 
-    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 2)));
+    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 0)));
 }
 
 
@@ -18,7 +18,6 @@ void LargeJumpTest::update() {
     if (stickman->isColliding()) {
         stickman->jump();
     }
-    obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];
     o->collisionLogic(*stickman);
     if (stickman->getCoordinate().getXCoordinate() > 800) {

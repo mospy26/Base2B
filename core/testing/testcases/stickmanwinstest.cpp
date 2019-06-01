@@ -13,7 +13,7 @@ StickmanWinsTest::StickmanWinsTest() : TestRunner("StickmanWinsTest"), score() {
 
     QPixmap pix(":/sprites/flag.png");
     pix = pix.scaledToHeight(220);
-    obstacles.push_back(std::move(std::make_unique<Checkpoint>(Coordinate(400, 50, 450), 2)));
+    obstacles.push_back(std::move(std::make_unique<Checkpoint>(Coordinate(400, 50, 450), 0)));
     obstacles[0]->setSprite(pix);
 }
 
@@ -21,7 +21,6 @@ void StickmanWinsTest::update() {
     stickman->update(obstacles);
 
     obstacles[0]->collisionLogic(*stickman);
-    obstacles[0]->setVelocity(0);
     stickman->setVelocity(velocity);
 
     if(stickman->isColliding() && stickman->isReachedFlag()) {

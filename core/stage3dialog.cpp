@@ -130,7 +130,8 @@ void Stage3Dialog::update() {
             walkingStickman->died();
         } else {
             walkingStickman->putBack();
-            lifeScore.decrement();
+            lifeScore.decrement(10);
+            lifeScore.increment(walkingStickman->getLives());
             restartLevel();
             checkpointPlaced = false;
         }

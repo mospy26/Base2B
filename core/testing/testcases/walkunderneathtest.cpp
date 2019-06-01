@@ -8,13 +8,12 @@ WalkUnderneathTest::WalkUnderneathTest() : TestRunner("WalkUnderneathTest") {
     stickman->provideAbility(Ability::NoEffect);
     stickman->setLives(3);
 
-    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 70, 450), 2)));
+    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 70, 450), 0)));
 }
 
 void WalkUnderneathTest::update() {
     stickman->update(obstacles);
     stickman->setVelocity(8);
-    obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];
     o->collisionLogic(*stickman);
     if (stickman->getCoordinate().getXCoordinate() > 800) {

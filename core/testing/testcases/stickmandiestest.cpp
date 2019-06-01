@@ -11,14 +11,13 @@ StickmanDiesTest::StickmanDiesTest() : TestRunner("StickmanDiesTest"), lifeScore
     lifeScore.increment(stickman->getLives());
     score.increment(500);
 
-    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 2)));
+    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 0)));
 }
 
 void StickmanDiesTest::update() {
     stickman->update(obstacles);
 
     obstacles[0]->collisionLogic(*stickman);
-    obstacles[0]->setVelocity(velocity);
     stickman->setVelocity(velocity);
 
     if(stickman->isColliding()) {

@@ -8,7 +8,7 @@ LargePowerupTest::LargePowerupTest() : TestRunner("LargePowerupTest") {
     stickman->provideAbility(Ability::NoEffect);
     stickman->setLives(3);
 
-    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 2)));
+    obstacles.push_back(std::move(std::make_unique<Bird>(Coordinate(400, 50, 450), 0)));
     powerups.push_back(std::make_unique<LargePowerup>(Coordinate(50, 450, 450), 0));
     QPixmap sprite(":/sprites/large.png");
     sprite = sprite.scaledToHeight(40);
@@ -20,7 +20,6 @@ void LargePowerupTest::update() {
     if(powerups[0]) {
         powerups[0]->updateCoordinate();
     }
-    obstacles[0]->setVelocity(0);
     auto &o = obstacles[0];
     o->collisionLogic(*stickman);
     if(powerups[0]) {

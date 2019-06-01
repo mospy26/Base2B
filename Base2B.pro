@@ -82,7 +82,8 @@ SOURCES += \
     core/testing/testcases/tinypoweruptest.cpp \
     core/testing/testcases/stickmandiestest.cpp \
     core/testing/testcases/stickmanwinstest.cpp \
-    core/testing/testcases/normalpoweruptest.cpp
+    core/testing/testcases/normalpoweruptest.cpp \
+    core/testing/testcases/restartlevelloselifetest.cpp
 
 HEADERS += \
     objects/entities/colouredentity.h \
@@ -135,7 +136,8 @@ HEADERS += \
     core/testing/testcases/tinypoweruptest.h \
     core/testing/testcases/stickmandiestest.h \
     core/testing/testcases/stickmanwinstest.h \
-    core/testing/testcases/normalpoweruptest.h
+    core/testing/testcases/normalpoweruptest.h \
+    core/testing/testcases/restartlevelloselifetest.h
 
 FORMS += \
         dialog.ui
